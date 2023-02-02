@@ -1,8 +1,25 @@
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { Button, Container, useColorMode } from '@chakra-ui/react';
+import { Button, Container, Text, useColorMode } from '@chakra-ui/react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 const App = () => {
 	const { colorMode, toggleColorMode } = useColorMode();
+
+	const [task, setTask] = useState<any[]>([]);
+
+	const getTasks = async () => {
+		try {
+			const res = await axios.get('http://localhost:8080/api/v1/task');
+			setTask(res.data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		getTasks();
+	});
 
 	return (
 		<Container>
@@ -13,6 +30,7 @@ const App = () => {
 					<MoonIcon color={'blue.300'} />
 				)}
 			</Button>
+			{task && task.map((t) => <Text>{t.task}</Text>)}
 		</Container>
 	);
 };
