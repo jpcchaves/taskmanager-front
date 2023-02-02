@@ -11,11 +11,12 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { TaskI } from './types/taskI';
 
 const App = () => {
 	const { colorMode, toggleColorMode } = useColorMode();
 
-	const [task, setTask] = useState<any[]>([]);
+	const [task, setTask] = useState<TaskI[]>([]);
 
 	console.log(task);
 
@@ -48,7 +49,7 @@ const App = () => {
 						<CardBody>
 							<Text>{t.createdAt}</Text>
 							<Text>{t.deadline}</Text>
-							<Text>{t.conclued ? 'Concluída' : 'Não conluída'}</Text>
+							<Text>{t.concluded ? 'Concluída' : 'Não conluída'}</Text>
 						</CardBody>
 					</Card>
 				))}
