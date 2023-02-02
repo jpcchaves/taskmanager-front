@@ -1,5 +1,14 @@
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { Button, Container, Text, useColorMode } from '@chakra-ui/react';
+import {
+	Box,
+	Button,
+	Card,
+	CardBody,
+	CardHeader,
+	Container,
+	Text,
+	useColorMode,
+} from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -7,6 +16,8 @@ const App = () => {
 	const { colorMode, toggleColorMode } = useColorMode();
 
 	const [task, setTask] = useState<any[]>([]);
+
+	console.log(task);
 
 	const getTasks = async () => {
 		try {
@@ -19,10 +30,10 @@ const App = () => {
 
 	useEffect(() => {
 		getTasks();
-	});
+	}, []);
 
 	return (
-		<Container>
+		<Container paddingY={'2'}>
 			<Button onClick={() => toggleColorMode()}>
 				{colorMode === 'dark' ? (
 					<SunIcon color={'orange.300'} />
@@ -30,7 +41,17 @@ const App = () => {
 					<MoonIcon color={'blue.300'} />
 				)}
 			</Button>
-			{task && task.map((t) => <Text>{t.task}</Text>)}
+			{task &&
+				task.map((t) => (
+					<Card marginBottom={'2'}>
+						<CardHeader>{t.task}</CardHeader>
+						<CardBody>
+							<Text>{t.createdAt}</Text>
+							<Text>{t.deadline}</Text>
+							<Text>{t.conclued ? 'Concluída' : 'Não conluída'}</Text>
+						</CardBody>
+					</Card>
+				))}
 		</Container>
 	);
 };
