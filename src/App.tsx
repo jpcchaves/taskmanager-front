@@ -19,7 +19,7 @@ const App = () => {
 
 	const getTasks = async () => {
 		try {
-			const res = await api.get('/api/v1/task');
+			const res = await api.get('/v1/task');
 			setTask(res.data);
 		} catch (error) {
 			console.log(error);
