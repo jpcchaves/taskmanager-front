@@ -8,10 +8,9 @@ import {
 	Text,
 	useColorMode,
 } from '@chakra-ui/react';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { api } from './hooks/useApi';
-import { TaskI } from './types/taskI';
+import { TaskI } from './modules/task/types/taskI';
 
 const App = () => {
 	const { colorMode, toggleColorMode } = useColorMode();
