@@ -1,6 +1,5 @@
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import {
-	Box,
 	Button,
 	Card,
 	CardBody,
@@ -11,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { api } from './hooks/useApi';
 import { TaskI } from './types/taskI';
 
 const App = () => {
@@ -18,11 +18,9 @@ const App = () => {
 
 	const [task, setTask] = useState<TaskI[]>([]);
 
-	console.log(task);
-
 	const getTasks = async () => {
 		try {
-			const res = await axios.get('http://localhost:8080/api/v1/task');
+			const res = await api.get('/api/v1/task');
 			setTask(res.data);
 		} catch (error) {
 			console.log(error);
@@ -44,7 +42,7 @@ const App = () => {
 			</Button>
 			{task &&
 				task.map((t) => (
-					<Card marginBottom={'2'}>
+					<Card key={t.id} marginBottom={'2'}>
 						<CardHeader>{t.task}</CardHeader>
 						<CardBody>
 							<Text>{t.createdAt}</Text>
