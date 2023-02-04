@@ -7,6 +7,7 @@ export const NAV_ITEMS: Array<NavItem> = [
 			{
 				label: 'Listagem de Tasks',
 				subLabel: 'Veja suas tasks atuais',
+				children: [],
 				href: '/',
 			},
 		],

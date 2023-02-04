@@ -7,9 +7,9 @@ import {
 	useColorModeValue,
 	useDisclosure,
 	Icon,
-	Link,
 } from '@chakra-ui/react';
 import { NavItem } from '../types/NavItemI';
+import { Link as RouteLink } from 'react-router-dom';
 
 const MobileNavItem = ({ label, children, href }: NavItem) => {
 	const { isOpen, onToggle } = useDisclosure();
@@ -20,7 +20,6 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
 		<Stack spacing={4} onClick={children && onToggle}>
 			<Flex
 				py={2}
-				as={Link}
 				href={href ?? '#'}
 				justify={'space-between'}
 				align={'center'}
@@ -56,9 +55,11 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
 				>
 					{children &&
 						children.map((child) => (
-							<Link key={child.label} py={2} href={child.href}>
-								{child.label}
-							</Link>
+							<>
+								<RouteLink key={child.label} py={2} to={child.href!}>
+									{child.label}
+								</RouteLink>
+							</>
 						))}
 				</Stack>
 			</Collapse>

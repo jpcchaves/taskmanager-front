@@ -1,6 +1,6 @@
 export interface NavItem {
 	label: string;
 	subLabel?: string;
-	children?: Array<NavItem>;
+	children: Array<NavItem>;
 	href?: string;
 }
