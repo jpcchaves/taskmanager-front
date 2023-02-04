@@ -18,7 +18,13 @@ const TaskList = () => {
 
 	const columns = [
 		columnHelper.accessor('task', {
-			cell: (info) => info.getValue(),
+			cell: (info) => (
+				<Text
+					textDecoration={info.row.original.concluded ? 'line-through' : ''}
+				>
+					{info.getValue()}
+				</Text>
+			),
 			header: 'Tarefa',
 		}),
 		columnHelper.accessor('createdAt', {
