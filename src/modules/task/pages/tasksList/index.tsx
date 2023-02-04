@@ -4,7 +4,6 @@ import TaskListView from './view';
 
 import { Checkbox, Flex, Text } from '@chakra-ui/react';
 import { createColumnHelper } from '@tanstack/react-table';
-import { TasksTable } from '../../components/TasksTable';
 import { TaskI } from '../../types/taskI';
 
 const TaskList = () => {

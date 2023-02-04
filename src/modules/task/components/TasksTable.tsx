@@ -43,7 +43,11 @@ export function TasksTable<Data extends object>({
 	});
 
 	return (
-		<Container pt={'2'} centerContent maxW='2xl'>
+		<Container
+			pt={'2'}
+			as={'section'}
+			maxW={{ sm: 'container.sm', md: 'container.md', lg: 'container.xl' }}
+		>
 			<Table variant='striped' colorScheme='blackAlpha'>
 				<Thead>
 					{data &&
@@ -81,7 +85,7 @@ export function TasksTable<Data extends object>({
 							<Tr key={row.id}>
 								{row.getVisibleCells().map((cell) => {
 									return (
-										<Td key={cell.id} textAlign={'center'}>
+										<Td key={cell.id} textAlign={'center'} userSelect={'none'}>
 											{flexRender(
 												cell.column.columnDef.cell,
 												cell.getContext()
