@@ -1,12 +1,29 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Center, Heading, Text } from '@chakra-ui/react';
+import { ColumnDef } from '@tanstack/react-table';
+import { DataTableProps, TasksTable } from '../../components/TasksTable';
+import { TaskI } from '../../types/taskI';
 
-const TaskListView = () => {
+interface TaskListViewI {
+	data: Array<TaskI>;
+	columns: ColumnDef<TaskI, any>[];
+}
+
+const TaskListView = ({ data, columns }: TaskListViewI) => {
+	let count = 0;
+
+	data?.map((t) => (t.concluded !== true ? count++ : null));
+
 	return (
-		<Box>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere soluta,
-			optio eligendi, error pariatur sint tempore dolor ut architecto aliquid
-			vero ipsam dolorem magni neque rerum quidem consequuntur qui. Molestias?
-		</Box>
+		<>
+			<Center pt='6' pb='2'>
+				<Box>
+					<Heading color={'HighlightText'} size='md'>
+						Atualmente você possui {count} tasks não concluídas
+					</Heading>
+				</Box>
+			</Center>
+			<TasksTable columns={columns} data={data} />;
+		</>
 	);
 };
 
