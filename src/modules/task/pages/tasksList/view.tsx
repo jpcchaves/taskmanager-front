@@ -1,6 +1,14 @@
-import { Box, Center, Heading, Text } from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
+import {
+	Box,
+	Button,
+	Center,
+	Container,
+	Heading,
+	Tooltip,
+} from '@chakra-ui/react';
 import { ColumnDef } from '@tanstack/react-table';
-import { DataTableProps, TasksTable } from '../../components/TasksTable';
+import { TasksTable } from '../../components/TasksTable';
 import { TaskI } from '../../types/taskI';
 
 interface TaskListViewI {
@@ -14,16 +22,36 @@ const TaskListView = ({ data, columns }: TaskListViewI) => {
 	data?.map((t) => (t.concluded !== true ? count++ : null));
 
 	return (
-		<>
-			<Center pt='6' pb='2'>
+		<Box pb={'36'}>
+			<Container pt='6' pb='2'>
 				<Box>
 					<Heading size='md' textAlign={'center'}>
 						Atualmente você possui {count} tasks não concluídas
 					</Heading>
 				</Box>
-			</Center>
-			<TasksTable columns={columns} data={data} />;
-		</>
+			</Container>
+			<Container maxW={'1200'}>
+				<TasksTable columns={columns} data={data} />
+			</Container>
+
+			<Tooltip label='Adicionar nova tarefa'>
+				<Button
+					position={'fixed'}
+					bottom={7}
+					right={5}
+					width={12}
+					height={12}
+					bg={'blue.300'}
+					rounded={'full'}
+					_hover={{
+						bg: 'blue.500',
+						color: 'white',
+					}}
+				>
+					<AddIcon />
+				</Button>
+			</Tooltip>
+		</Box>
 	);
 };
 

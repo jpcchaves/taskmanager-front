@@ -43,11 +43,7 @@ export function TasksTable<Data extends object>({
 	});
 
 	return (
-		<Container
-			pt={'2'}
-			as={'section'}
-			maxW={{ sm: 'container.sm', md: 'container.md', lg: 'container.xl' }}
-		>
+		<Box overflowY={'auto'}>
 			<Table variant='striped' colorScheme='blackAlpha'>
 				<Thead>
 					{data &&
@@ -58,7 +54,6 @@ export function TasksTable<Data extends object>({
 										<Th
 											key={header.id}
 											onClick={header.column.getToggleSortingHandler()}
-											textAlign={'center'}
 										>
 											{flexRender(
 												header.column.columnDef.header,
@@ -85,7 +80,7 @@ export function TasksTable<Data extends object>({
 							<Tr key={row.id}>
 								{row.getVisibleCells().map((cell) => {
 									return (
-										<Td key={cell.id} textAlign={'center'} userSelect={'none'}>
+										<Td key={cell.id} userSelect={'none'}>
 											{flexRender(
 												cell.column.columnDef.cell,
 												cell.getContext()
@@ -97,6 +92,6 @@ export function TasksTable<Data extends object>({
 						))}
 				</Tbody>
 			</Table>
-		</Container>
+		</Box>
 	);
 }

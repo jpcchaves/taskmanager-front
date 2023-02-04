@@ -19,7 +19,11 @@ const TaskList = () => {
 	const columns = [
 		columnHelper.accessor('task', {
 			cell: (info) => info.getValue(),
-			header: 'Task',
+			header: 'Tarefa',
+		}),
+		columnHelper.accessor('createdAt', {
+			cell: (info) => moment(info.getValue()).format('DD/MM/YYYY'),
+			header: 'Data de Criação',
 		}),
 		columnHelper.accessor('deadline', {
 			cell: (info) => moment(info.getValue()).format('DD/MM/YYYY'),
@@ -27,7 +31,7 @@ const TaskList = () => {
 		}),
 		columnHelper.accessor('concluded', {
 			cell: (info) => (
-				<Flex alignItems={'center'} justifyContent={'center'} gap={'2'}>
+				<Flex gap={'2'}>
 					<Checkbox defaultChecked={info.getValue()} />
 					<Text>{info.getValue() ? 'Concluída' : 'Não Concluída'}</Text>
 				</Flex>
