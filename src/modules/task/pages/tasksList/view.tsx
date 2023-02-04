@@ -17,7 +17,7 @@ const TaskListView = ({ data, columns }: TaskListViewI) => {
 		<>
 			<Center pt='6' pb='2'>
 				<Box>
-					<Heading color={'blackAlpha.800'} size='md' textAlign={'center'}>
+					<Heading size='md' textAlign={'center'}>
 						Atualmente você possui {count} tasks não concluídas
 					</Heading>
 				</Box>
