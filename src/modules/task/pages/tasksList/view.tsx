@@ -34,7 +34,7 @@ const TaskListView = ({ data, columns }: TaskListViewI) => {
 				<TasksTable columns={columns} data={data} />
 			</Container>
 
-			<Tooltip label='Adicionar nova tarefa'>
+			<Tooltip label='Adicionar nova tarefa' hasArrow>
 				<Button
 					position={'fixed'}
 					bottom={7}
