@@ -2,19 +2,17 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
 	Collapse,
 	Flex,
+	Icon,
 	Stack,
 	Text,
 	useColorModeValue,
 	useDisclosure,
-	Icon,
 } from '@chakra-ui/react';
-import { NavItem } from '../types/NavItemI';
 import { Link as RouteLink } from 'react-router-dom';
+import { NavItem } from '../types/NavItemI';
 
 const MobileNavItem = ({ label, children, href }: NavItem) => {
 	const { isOpen, onToggle } = useDisclosure();
-
-	console.log(children);
 
 	return (
 		<Stack spacing={4} onClick={children && onToggle}>
@@ -55,11 +53,9 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
 				>
 					{children &&
 						children.map((child) => (
-							<>
-								<RouteLink key={child.label} py={2} to={child.href!}>
-									{child.label}
-								</RouteLink>
-							</>
+							<RouteLink key={child.label} py={2} to={child.href!}>
+								{child.label}
+							</RouteLink>
 						))}
 				</Stack>
 			</Collapse>
