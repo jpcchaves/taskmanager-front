@@ -1,10 +1,13 @@
 import { useQuery } from 'react-query';
 import { api } from '../../../../hooks/useApi';
 import TaskListView from './view';
+import 'moment-timezone';
+import Moment from 'react-moment';
 
-import { Checkbox, Flex, Text } from '@chakra-ui/react';
+import { Box, Checkbox, Flex, Text } from '@chakra-ui/react';
 import { createColumnHelper } from '@tanstack/react-table';
 import { TaskI } from '../../types/taskI';
+import moment from 'moment';
 
 const TaskList = () => {
 	const { data } = useQuery('tasks', () =>
@@ -14,28 +17,22 @@ const TaskList = () => {
 	const columnHelper = createColumnHelper<TaskI>();
 
 	const columns = [
-		columnHelper.accessor('concluded', {
-			cell: (info) =>
-				info.getValue() === true ? (
-					<Flex alignItems={'center'} justifyContent={'start'} gap={'2'}>
-						<Checkbox defaultChecked />
-						<Text>Concluída</Text>
-					</Flex>
-				) : (
-					<Flex alignItems={'center'} justifyContent={'start'} gap={'2'}>
-						<Checkbox />
-						<Text>Não Conluída</Text>
-					</Flex>
-				),
-			header: 'Situação',
-		}),
 		columnHelper.accessor('task', {
 			cell: (info) => info.getValue(),
 			header: 'Task',
 		}),
 		columnHelper.accessor('deadline', {
-			cell: (info) => info.getValue(),
+			cell: (info) => moment(info.getValue()).format('DD/MM/YYYY'),
 			header: 'Prazo',
+		}),
+		columnHelper.accessor('concluded', {
+			cell: (info) => (
+				<Flex alignItems={'center'} justifyContent={'center'} gap={'2'}>
+					<Checkbox defaultChecked={info.getValue()} />
+					<Text>{info.getValue() ? 'Concluída' : 'Não Concluída'}</Text>
+				</Flex>
+			),
+			header: 'Situação',
 		}),
 	];
 
