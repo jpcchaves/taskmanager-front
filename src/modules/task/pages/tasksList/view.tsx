@@ -1,37 +1,18 @@
 import { AddIcon } from '@chakra-ui/icons';
-import {
-	Box,
-	Button,
-	Center,
-	Container,
-	Heading,
-	keyframes,
-	Tooltip,
-} from '@chakra-ui/react';
+import { Box, Button, Container, Heading, Tooltip } from '@chakra-ui/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { TasksTable } from '../../components/TasksTable';
 import { TaskI } from '../../types/taskI';
 
+import { motion } from 'framer-motion';
 interface TaskListViewI {
 	data: Array<TaskI>;
 	columns: ColumnDef<TaskI, any>[];
 }
 
-const animation = keyframes`
-		from {
-			transform: rotate(0deg);
-		}
-
-		to {
-			transform: rotate(359deg);
-		}
-	`;
-
 const TaskListView = ({ data, columns }: TaskListViewI) => {
 	let count = 0;
 	data?.map((t) => (t.concluded !== true ? count++ : null));
-
-	const buttonAnimation = `${animation} ease-in-out 1s`;
 
 	return (
 		<Box pb={'36'}>
@@ -48,6 +29,7 @@ const TaskListView = ({ data, columns }: TaskListViewI) => {
 
 			<Tooltip label='Adicionar nova tarefa' hasArrow>
 				<Button
+					as={motion.button}
 					position={'fixed'}
 					bottom={7}
 					right={5}
@@ -58,9 +40,9 @@ const TaskListView = ({ data, columns }: TaskListViewI) => {
 					_hover={{
 						bg: 'blue.500',
 						color: 'white',
-						animation: buttonAnimation,
 					}}
-					
+					whileHover={{ rotate: 360, scale: 1.1 }}
+					transition='0.5s linear'
 				>
 					<AddIcon />
 				</Button>
