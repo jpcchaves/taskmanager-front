@@ -5,6 +5,7 @@ import {
 	Center,
 	Container,
 	Heading,
+	keyframes,
 	Tooltip,
 } from '@chakra-ui/react';
 import { ColumnDef } from '@tanstack/react-table';
@@ -16,10 +17,21 @@ interface TaskListViewI {
 	columns: ColumnDef<TaskI, any>[];
 }
 
+const animation = keyframes`
+		from {
+			transform: rotate(0deg);
+		}
+
+		to {
+			transform: rotate(359deg);
+		}
+	`;
+
 const TaskListView = ({ data, columns }: TaskListViewI) => {
 	let count = 0;
-
 	data?.map((t) => (t.concluded !== true ? count++ : null));
+
+	const buttonAnimation = `${animation} ease-in-out 1s`;
 
 	return (
 		<Box pb={'36'}>
@@ -46,7 +58,9 @@ const TaskListView = ({ data, columns }: TaskListViewI) => {
 					_hover={{
 						bg: 'blue.500',
 						color: 'white',
+						animation: buttonAnimation,
 					}}
+					
 				>
 					<AddIcon />
 				</Button>
