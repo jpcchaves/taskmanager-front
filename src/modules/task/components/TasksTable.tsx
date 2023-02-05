@@ -1,16 +1,5 @@
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import {
-	Box,
-	Center,
-	chakra,
-	Container,
-	Table,
-	Tbody,
-	Td,
-	Th,
-	Thead,
-	Tr,
-} from '@chakra-ui/react';
+import { Box, chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import {
 	ColumnDef,
 	flexRender,

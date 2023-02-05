@@ -1,5 +1,12 @@
 import { AddIcon } from '@chakra-ui/icons';
-import { Box, Button, Container, Heading, Tooltip } from '@chakra-ui/react';
+import {
+	Box,
+	Button,
+	Container,
+	Flex,
+	Heading,
+	Tooltip,
+} from '@chakra-ui/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { TasksTable } from '../../components/TasksTable';
 import { TaskI } from '../../types/taskI';
@@ -9,9 +16,17 @@ interface TaskListViewI {
 	data: Array<TaskI>;
 	columns: ColumnDef<TaskI, any>[];
 	handleNavigate: (path: string) => void;
+	tasksAmount: number;
+	requireMoreTasks: () => void;
 }
 
-const TaskListView = ({ data, columns, handleNavigate }: TaskListViewI) => {
+const TaskListView = ({
+	data,
+	columns,
+	handleNavigate,
+	tasksAmount,
+	requireMoreTasks,
+}: TaskListViewI) => {
 	let count = 0;
 	data?.map((t) => (t.concluded !== true ? count++ : null));
 
@@ -26,6 +41,11 @@ const TaskListView = ({ data, columns, handleNavigate }: TaskListViewI) => {
 			</Container>
 			<Container maxW={'1200'}>
 				<TasksTable columns={columns} data={data} />
+				<Flex pt='4' justifyContent={'center'}>
+					<Button onClick={() => requireMoreTasks()} colorScheme='blue'>
+						Carregar mais tasks
+					</Button>
+				</Flex>
 			</Container>
 
 			<Tooltip label='Adicionar nova tarefa' hasArrow>

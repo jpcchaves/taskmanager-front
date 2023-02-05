@@ -13,9 +13,10 @@ import FormInvalidFeedback from '../../components/FormInvalidFeedback';
 
 interface TaskFormViewI {
 	validation: FormikValues;
+	isLoading: boolean;
 }
 
-const TasksFormView = ({ validation }: TaskFormViewI) => {
+const TasksFormView = ({ validation, isLoading }: TaskFormViewI) => {
 	return (
 		<Container maxW={{ lg: '3xl', md: '5xl', sm: 'container.xl' }} pt={'6'}>
 			<FormControl
@@ -78,7 +79,7 @@ const TasksFormView = ({ validation }: TaskFormViewI) => {
 						) : null}
 
 						<Flex mt='8' justifyContent='flex-end'>
-							<Button colorScheme='blue' type='submit'>
+							<Button colorScheme='blue' type='submit' isLoading={isLoading}>
 								Criar
 							</Button>
 						</Flex>

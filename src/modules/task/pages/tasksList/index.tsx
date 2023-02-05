@@ -11,16 +11,23 @@ import 'moment-timezone';
 // Types
 import { TaskI } from '../../types/taskI';
 // Hooks
+import { useState } from 'react';
 import useHandleNavigate from '../../../../hooks/useHandleNavigate';
 
 const TaskList = () => {
 	const { handleNavigate } = useHandleNavigate();
 
+	const [tasksAmount, setTaksAmount] = useState(5);
+
+	const requireMoreTasks = () => {
+		setTaksAmount((prevState) => prevState + 5);
+	};
+
 	const getTasks = async () => {
-		const { data } = await api.get('/v1/task');
+		const { data } = await api.get(`/v1/task?size=${tasksAmount}`);
 		return data.content;
 	};
-	const { data } = useQuery('tasks', getTasks);
+	const { data } = useQuery(['tasks', tasksAmount], getTasks);
 
 	const columnHelper = createColumnHelper<TaskI>();
 
@@ -60,6 +67,8 @@ const TaskList = () => {
 				data={data}
 				columns={columns}
 				handleNavigate={handleNavigate}
+				tasksAmount={tasksAmount}
+				requireMoreTasks={requireMoreTasks}
 			/>
 		</>
 	);
