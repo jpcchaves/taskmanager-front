@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import Navbar from './common/navbar';
+import TasksForm from './modules/task/pages/tasksForm';
 import TaskList from './modules/task/pages/tasksList';
 
 const App = () => {
@@ -7,6 +8,7 @@ const App = () => {
 		<Routes>
 			<Route path='/' element={<Navbar />}>
 				<Route path='/' index element={<TaskList />} />
+				<Route path='/task/new' element={<TasksForm />} />
 			</Route>
 		</Routes>
 	);

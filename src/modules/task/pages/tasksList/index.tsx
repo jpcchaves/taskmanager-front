@@ -1,15 +1,21 @@
+// Api
 import { useQuery } from 'react-query';
 import { api } from '../../../../hooks/useApi';
-import TaskListView from './view';
-import 'moment-timezone';
-import Moment from 'react-moment';
-
-import { Box, Checkbox, Flex, Text } from '@chakra-ui/react';
+// Components
+import { Checkbox, Flex, Text } from '@chakra-ui/react';
 import { createColumnHelper } from '@tanstack/react-table';
-import { TaskI } from '../../types/taskI';
+import TaskListView from './view';
+// Utils
 import moment from 'moment';
+import 'moment-timezone';
+// Types
+import { TaskI } from '../../types/taskI';
+// Hooks
+import useHandleNavigate from '../../../../hooks/useHandleNavigate';
 
 const TaskList = () => {
+	const { handleNavigate } = useHandleNavigate();
+
 	const { data } = useQuery('tasks', () =>
 		api.get('/v1/task').then((res) => res.data.content)
 	);
@@ -48,7 +54,11 @@ const TaskList = () => {
 
 	return (
 		<>
-			<TaskListView data={data} columns={columns} />
+			<TaskListView
+				data={data}
+				columns={columns}
+				handleNavigate={handleNavigate}
+			/>
 		</>
 	);
 };

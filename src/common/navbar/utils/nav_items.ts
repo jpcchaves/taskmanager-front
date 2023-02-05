@@ -10,6 +10,12 @@ export const NAV_ITEMS: Array<NavItem> = [
 				children: [],
 				href: '/',
 			},
+			{
+				label: 'Criar nova Task',
+				subLabel: 'Adicione uma Task',
+				children: [],
+				href: '/task/new',
+			},
 		],
 	},
 ];

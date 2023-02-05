@@ -8,9 +8,10 @@ import { motion } from 'framer-motion';
 interface TaskListViewI {
 	data: Array<TaskI>;
 	columns: ColumnDef<TaskI, any>[];
+	handleNavigate: (path: string) => void;
 }
 
-const TaskListView = ({ data, columns }: TaskListViewI) => {
+const TaskListView = ({ data, columns, handleNavigate }: TaskListViewI) => {
 	let count = 0;
 	data?.map((t) => (t.concluded !== true ? count++ : null));
 
@@ -41,8 +42,9 @@ const TaskListView = ({ data, columns }: TaskListViewI) => {
 						bg: 'blue.500',
 						color: 'white',
 					}}
-					whileHover={{ rotate: 360, scale: 1.1 }}
-					transition='0.5s linear'
+					whileHover={{ rotate: 180, scale: 1.05 }}
+					transition='0.2s linear'
+					onClick={() => handleNavigate('/task/new')}
 				>
 					<AddIcon />
 				</Button>
