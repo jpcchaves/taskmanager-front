@@ -1,5 +1,5 @@
 import { useMutation } from 'react-query';
-import { api } from '../../../hooks/useApi';
+import { api } from './useApi';
 
 const useCreateTaskMutation = () => {
 	const createTaskMutation = () => {
