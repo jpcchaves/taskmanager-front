@@ -18,6 +18,7 @@ interface TaskListViewI {
 	handleNavigate: (path: string) => void;
 	tasksAmount: number;
 	requireMoreTasks: () => void;
+	isLoading: boolean;
 }
 
 const TaskListView = ({
@@ -26,6 +27,7 @@ const TaskListView = ({
 	handleNavigate,
 	tasksAmount,
 	requireMoreTasks,
+	isLoading,
 }: TaskListViewI) => {
 	let count = 0;
 	data?.map((t) => (t.concluded !== true ? count++ : null));
@@ -42,7 +44,11 @@ const TaskListView = ({
 			<Container maxW={'1200'}>
 				<TasksTable columns={columns} data={data} />
 				<Flex pt='4' justifyContent={'center'}>
-					<Button onClick={() => requireMoreTasks()} colorScheme='blue'>
+					<Button
+						onClick={() => requireMoreTasks()}
+						colorScheme='blue'
+						isLoading={isLoading}
+					>
 						Carregar mais tasks
 					</Button>
 				</Flex>

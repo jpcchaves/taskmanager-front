@@ -27,7 +27,7 @@ const TaskList = () => {
 		const { data } = await api.get(`/v1/task?size=${tasksAmount}`);
 		return data.content;
 	};
-	const { data } = useQuery(['tasks', tasksAmount], getTasks);
+	const { data, isLoading } = useQuery(['tasks', tasksAmount], getTasks);
 
 	const columnHelper = createColumnHelper<TaskI>();
 
@@ -69,6 +69,7 @@ const TaskList = () => {
 				handleNavigate={handleNavigate}
 				tasksAmount={tasksAmount}
 				requireMoreTasks={requireMoreTasks}
+				isLoading={isLoading}
 			/>
 		</>
 	);
