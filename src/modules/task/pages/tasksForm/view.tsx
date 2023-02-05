@@ -1,48 +1,81 @@
-import { AddIcon, SmallAddIcon } from '@chakra-ui/icons';
 import {
 	Button,
 	Container,
 	Flex,
 	FormControl,
-	FormErrorMessage,
-	FormHelperText,
 	FormLabel,
 	Heading,
 	Input,
-	InputGroup,
-	InputLeftElement,
 } from '@chakra-ui/react';
-import { Formik, Form } from 'formik';
+import { Form, Formik } from 'formik';
+import { FormikHelpers, FormikValues } from 'formik/dist/types';
+import FormInvalidFeedback from '../../components/FormInvalidFeedback';
 
-const TasksFormView = () => {
-	const isError = true;
+interface TaskFormViewI {
+	validation: FormikValues;
+}
 
+const TasksFormView = ({ validation }: TaskFormViewI) => {
 	return (
 		<Container maxW={{ lg: '3xl', md: '5xl', sm: 'container.xl' }} pt={'6'}>
 			<FormControl
-				isInvalid={isError}
 				border={'1px solid #ccc'}
 				p={'8'}
 				rounded={'md'}
 				boxShadow={'lg'}
-				isRequired
 			>
 				<Heading size='md' textAlign={'center'}>
 					Criar nova task
 				</Heading>
-				<Formik>
-					<Form>
+				<Formik
+					initialValues={{
+						task: '',
+						deadline: '',
+					}}
+					onSubmit={function (
+						values: { task: string; deadline: string },
+						formikHelpers: FormikHelpers<{
+							task: string;
+							deadline: string;
+						}>
+					): void | Promise<any> {
+						throw new Error('Function not implemented.');
+					}}
+				>
+					<Form
+						onSubmit={(e) => {
+							e.preventDefault();
+							validation.handleSubmit();
+							return false;
+						}}
+					>
 						<FormLabel>Task</FormLabel>
-						<Input type='text' name='task' placeholder='Digite a task...' />
-						<FormErrorMessage>A task é obrigatória</FormErrorMessage>
+						<Input
+							type='text'
+							name='task'
+							placeholder='Digite a task...'
+							onChange={validation.handleChange}
+							value={validation.values.task || ''}
+							isInvalid={validation.touched.task && validation.errors.task}
+						/>
+						{validation.touched.task && validation.errors.task ? (
+							<FormInvalidFeedback message={validation.errors.task} />
+						) : null}
 
 						<FormLabel pt={'4'}>Prazo</FormLabel>
 						<Input
 							type='datetime-local'
 							name='deadline'
 							placeholder='Digite a task...'
+							onChange={validation.handleChange}
+							value={validation.values.deadline || ''}
+							isInvalid={
+								validation.touched.deadline && validation.errors.deadline
+							}
 						/>
-						<FormErrorMessage>O prazo é obrigatório</FormErrorMessage>
+						{validation.touched.deadline && validation.errors.deadline ? (
+							<FormInvalidFeedback message={validation.errors.deadline} />
+						) : null}
 
 						<Flex mt='8' justifyContent='flex-end'>
 							<Button colorScheme='blue' type='submit'>
