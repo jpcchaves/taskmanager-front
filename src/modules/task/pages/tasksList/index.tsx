@@ -16,9 +16,11 @@ import useHandleNavigate from '../../../../hooks/useHandleNavigate';
 const TaskList = () => {
 	const { handleNavigate } = useHandleNavigate();
 
-	const { data } = useQuery('tasks', () =>
-		api.get('/v1/task').then((res) => res.data.content)
-	);
+	const getTasks = async () => {
+		const { data } = await api.get('/v1/task');
+		return data.content;
+	};
+	const { data } = useQuery('tasks', getTasks);
 
 	const columnHelper = createColumnHelper<TaskI>();
 
