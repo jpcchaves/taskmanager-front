@@ -1,8 +1,8 @@
 import { useToast } from '@chakra-ui/react';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import useHandleNavigate from '../../../../hooks/useHandleNavigate';
 import useCreateTaskMutation from '../../components/useCreateTaskMutation';
+import { tasKValidation } from '../../utils/validation/taskValidationSchema';
 import TasksFormView from './view';
 
 const TasksForm = () => {
@@ -17,10 +17,7 @@ const TasksForm = () => {
 			task: '',
 			deadline: '',
 		},
-		validationSchema: Yup.object().shape({
-			task: Yup.string().required('A task é obrigatória!'),
-			deadline: Yup.date().required('O prazo é obrigatório!'),
-		}),
+		validationSchema: tasKValidation,
 		onSubmit: (values) => {
 			mutate(values, {
 				onSuccess: () => {
