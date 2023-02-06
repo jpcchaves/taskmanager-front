@@ -48,6 +48,7 @@ const TaskListView = ({
 						onClick={() => requireMoreTasks()}
 						colorScheme='blue'
 						isLoading={isLoading}
+						mt='8'
 					>
 						Carregar mais tasks
 					</Button>

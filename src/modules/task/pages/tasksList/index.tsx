@@ -2,7 +2,7 @@
 import { useQuery } from 'react-query';
 import { api } from '../../../../hooks/useApi';
 // Components
-import { Checkbox, Flex, Text } from '@chakra-ui/react';
+import { ButtonGroup, Checkbox, Flex, Text } from '@chakra-ui/react';
 import { createColumnHelper } from '@tanstack/react-table';
 import TaskListView from './view';
 // Utils
@@ -13,6 +13,7 @@ import { TaskI } from '../../types/taskI';
 // Hooks
 import { useState } from 'react';
 import useHandleNavigate from '../../../../hooks/useHandleNavigate';
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 
 const TaskList = () => {
 	const { handleNavigate } = useHandleNavigate();
@@ -30,6 +31,14 @@ const TaskList = () => {
 	const { data, isLoading } = useQuery(['tasks', tasksAmount], getTasks);
 
 	const columnHelper = createColumnHelper<TaskI>();
+
+	const handleDeleteTask = (id: number) => {
+		console.log(id);
+	};
+
+	const handleEditTask = (id: number) => {
+		console.log(id);
+	};
 
 	const columns = [
 		columnHelper.accessor('task', {
@@ -59,6 +68,31 @@ const TaskList = () => {
 			),
 			header: 'Situação',
 		}),
+		{
+			header: 'Ações',
+			cell: ({ row }: { row: any }) => (
+				<ButtonGroup display={'flex'} gap='2'>
+					<EditIcon
+						color={'green.300'}
+						transition={'0.2s'}
+						_hover={{
+							color: 'green.500',
+						}}
+						cursor={'pointer'}
+						onClick={() => handleEditTask(row.original.id)}
+					/>
+					<DeleteIcon
+						color={'red.300'}
+						transition={'0.2s'}
+						_hover={{
+							color: 'red.500',
+						}}
+						cursor={'pointer'}
+						onClick={() => handleDeleteTask(row.original.id)}
+					/>
+				</ButtonGroup>
+			),
+		},
 	];
 
 	return (
