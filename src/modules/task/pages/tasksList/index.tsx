@@ -1,8 +1,8 @@
 // Api
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { api } from '../../../../hooks/useApi';
 // Components
-import { ButtonGroup, Checkbox, Flex, Text } from '@chakra-ui/react';
+import { ButtonGroup, Checkbox, Flex, Text, useToast } from '@chakra-ui/react';
 import { createColumnHelper } from '@tanstack/react-table';
 import TaskListView from './view';
 // Utils
@@ -14,11 +14,18 @@ import { TaskI } from '../../types/taskI';
 import { useState } from 'react';
 import useHandleNavigate from '../../../../hooks/useHandleNavigate';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
+import useDeleteTaskMutation from '../../../../hooks/useDeleteTaskMutation';
 
 const TaskList = () => {
+	const toast = useToast();
 	const { handleNavigate } = useHandleNavigate();
-
 	const [tasksAmount, setTaksAmount] = useState(5);
+
+	const {
+		mutate: deleteMutate,
+		isLoading: deleteLoading,
+		isSuccess,
+	} = useDeleteTaskMutation();
 
 	const requireMoreTasks = () => {
 		setTaksAmount((prevState) => prevState + 5);
@@ -28,12 +35,25 @@ const TaskList = () => {
 		const { data } = await api.get(`/v1/task?size=${tasksAmount}`);
 		return data.content;
 	};
-	const { data, isLoading } = useQuery(['tasks', tasksAmount], getTasks);
+	const { data, isLoading } = useQuery(
+		['tasks', tasksAmount, isSuccess],
+		getTasks
+	);
 
 	const columnHelper = createColumnHelper<TaskI>();
 
 	const handleDeleteTask = (id: number) => {
-		console.log(id);
+		deleteMutate(id, {
+			onSuccess: () => {
+				toast({
+					title: 'Task deletada com sucesso!',
+					status: 'success',
+					position: 'top-right',
+					duration: 3000,
+					isClosable: true,
+				});
+			},
+		});
 	};
 
 	const handleEditTask = (id: number) => {
