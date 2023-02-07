@@ -1,5 +1,6 @@
 import { WarningTwoIcon } from '@chakra-ui/icons';
 import {
+	Box,
 	Button,
 	Modal,
 	ModalBody,
@@ -10,6 +11,9 @@ import {
 	ModalOverlay,
 	Text,
 } from '@chakra-ui/react';
+
+import Lottie from 'lottie-react';
+import trashCamAnimation from '../../../assets/animations/trash-can.json';
 
 interface DeleteModalPropsI {
 	isOpen: boolean;
@@ -39,11 +43,15 @@ const DeleteModal = ({
 					Cuidado! <WarningTwoIcon color='orange.400' />
 				</ModalHeader>
 				<ModalCloseButton />
-				<ModalBody textAlign={'justify'}>
+				<ModalBody display={'flex'} alignItems='center' justifyContent='center'>
+					<Box boxSize={'40'}>
+						<Lottie animationData={trashCamAnimation} width={100} />
+					</Box>
+				</ModalBody>
+				<ModalBody textAlign={'center'} mb='5'>
 					<Text>Esta ação ocasionará na exclusão da tarefa.</Text>
 					<Text>Deseja continuar?</Text>
 				</ModalBody>
-
 				<ModalFooter>
 					<Button colorScheme='blue' mr={3} onClick={onClose}>
 						Cancelar
