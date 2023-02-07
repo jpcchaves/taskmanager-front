@@ -1,3 +1,4 @@
+import { WarningTwoIcon } from '@chakra-ui/icons';
 import {
 	Button,
 	Modal,
@@ -27,8 +28,15 @@ const DeleteModal = ({
 		<Modal isOpen={isOpen} onClose={onClose}>
 			<ModalOverlay />
 			<ModalContent>
-				<ModalHeader textTransform={'uppercase'} textAlign='center'>
-					Cuidado!
+				<ModalHeader
+					textTransform={'uppercase'}
+					textAlign='center'
+					display={'flex'}
+					alignItems='center'
+					justifyContent='center'
+					gap='2'
+				>
+					Cuidado! <WarningTwoIcon color='orange.400' />
 				</ModalHeader>
 				<ModalCloseButton />
 				<ModalBody textAlign={'justify'}>
