@@ -57,7 +57,6 @@ const TaskList = () => {
 					isClosable: true,
 				});
 				client.invalidateQueries(['tasks']);
-				onClose();
 			},
 			onError: (e: any) => {
 				const { message } = e?.response?.data;

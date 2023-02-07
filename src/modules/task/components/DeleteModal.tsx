@@ -7,6 +7,7 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalOverlay,
+	Text,
 } from '@chakra-ui/react';
 
 interface DeleteModalPropsI {
@@ -31,7 +32,8 @@ const DeleteModal = ({
 				</ModalHeader>
 				<ModalCloseButton />
 				<ModalBody textAlign={'justify'}>
-					Esta ação ocasionará na exclusão da tarefa. Deseja continuar?
+					<Text>Esta ação ocasionará na exclusão da tarefa.</Text>
+					<Text>Deseja continuar?</Text>
 				</ModalBody>
 
 				<ModalFooter>
@@ -40,7 +42,10 @@ const DeleteModal = ({
 					</Button>
 					<Button
 						colorScheme='red'
-						onClick={() => handleDeleteTask(selectedId!)}
+						onClick={() => {
+							onClose();
+							handleDeleteTask(selectedId!);
+						}}
 					>
 						Deletar
 					</Button>
