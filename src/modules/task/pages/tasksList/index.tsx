@@ -1,5 +1,5 @@
 // Api
-import { useMutation, useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { api } from '../../../../hooks/useApi';
 // Components
 import { ButtonGroup, Checkbox, Flex, Text, useToast } from '@chakra-ui/react';
@@ -11,21 +11,20 @@ import 'moment-timezone';
 // Types
 import { TaskI } from '../../types/taskI';
 // Hooks
-import { useState } from 'react';
-import useHandleNavigate from '../../../../hooks/useHandleNavigate';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
+import { useState } from 'react';
 import useDeleteTaskMutation from '../../../../hooks/useDeleteTaskMutation';
+import useHandleNavigate from '../../../../hooks/useHandleNavigate';
 
 const TaskList = () => {
+	const client = useQueryClient();
+
 	const toast = useToast();
 	const { handleNavigate } = useHandleNavigate();
 	const [tasksAmount, setTaksAmount] = useState(5);
 
-	const {
-		mutate: deleteMutate,
-		isLoading: deleteLoading,
-		isSuccess,
-	} = useDeleteTaskMutation();
+	const { mutate: deleteMutate, isLoading: deleteLoading } =
+		useDeleteTaskMutation();
 
 	const requireMoreTasks = () => {
 		setTaksAmount((prevState) => prevState + 5);
@@ -35,10 +34,7 @@ const TaskList = () => {
 		const { data } = await api.get(`/v1/task?size=${tasksAmount}`);
 		return data.content;
 	};
-	const { data, isLoading } = useQuery(
-		['tasks', tasksAmount, isSuccess],
-		getTasks
-	);
+	const { data, isLoading } = useQuery(['tasks', tasksAmount], getTasks);
 
 	const columnHelper = createColumnHelper<TaskI>();
 
@@ -48,6 +44,18 @@ const TaskList = () => {
 				toast({
 					title: 'Task deletada com sucesso!',
 					status: 'success',
+					position: 'top-right',
+					duration: 3000,
+					isClosable: true,
+				});
+				client.invalidateQueries(['tasks']);
+			},
+			onError: (e: any) => {
+				const { message } = e?.response?.data;
+				toast({
+					title: 'Ocorreu um erro ao criar a task!',
+					description: message,
+					status: 'error',
 					position: 'top-right',
 					duration: 3000,
 					isClosable: true,
