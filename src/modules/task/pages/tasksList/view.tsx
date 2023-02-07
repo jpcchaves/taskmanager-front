@@ -12,6 +12,8 @@ import { TasksTable } from '../../components/TasksTable';
 import { TaskI } from '../../types/taskI';
 
 import { motion } from 'framer-motion';
+import ScreenLoader from '../../../../common/screenLoader';
+import DeleteModal from '../../components/DeleteModal';
 interface TaskListViewI {
 	data: Array<TaskI>;
 	columns: ColumnDef<TaskI, any>[];
@@ -19,6 +21,12 @@ interface TaskListViewI {
 	tasksAmount: number;
 	requireMoreTasks: () => void;
 	isLoading: boolean;
+	deleteLoading: boolean;
+	isOpen: boolean;
+	onOpen: () => void;
+	onClose: () => void;
+	handleDeleteTask: (id: number) => void;
+	selectedId: string;
 }
 
 const TaskListView = ({
@@ -28,12 +36,29 @@ const TaskListView = ({
 	tasksAmount,
 	requireMoreTasks,
 	isLoading,
+	deleteLoading,
+	isOpen,
+	onClose,
+	onOpen,
+	handleDeleteTask,
+	selectedId,
 }: TaskListViewI) => {
 	let count = 0;
 	data?.map((t) => (t.concluded !== true ? count++ : null));
 
 	return (
 		<Box pb={'36'}>
+			{deleteLoading ? (
+				<ScreenLoader message='Sua task está sendo deletada...' />
+			) : null}
+
+			<DeleteModal
+				isOpen={isOpen}
+				onClose={onClose}
+				handleDeleteTask={handleDeleteTask}
+				selectedId={selectedId}
+			/>
+
 			<Container pt='6' pb='2'>
 				<Box>
 					<Heading size='md' textAlign={'center'}>

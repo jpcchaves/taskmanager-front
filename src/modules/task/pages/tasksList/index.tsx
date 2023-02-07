@@ -2,7 +2,14 @@
 import { useQuery, useQueryClient } from 'react-query';
 import { api } from '../../../../hooks/useApi';
 // Components
-import { ButtonGroup, Checkbox, Flex, Text, useToast } from '@chakra-ui/react';
+import {
+	ButtonGroup,
+	Checkbox,
+	Flex,
+	Text,
+	useDisclosure,
+	useToast,
+} from '@chakra-ui/react';
 import { createColumnHelper } from '@tanstack/react-table';
 import TaskListView from './view';
 // Utils
@@ -18,8 +25,9 @@ import useHandleNavigate from '../../../../hooks/useHandleNavigate';
 
 const TaskList = () => {
 	const client = useQueryClient();
-
 	const toast = useToast();
+	const [selectedId, setSelectedId] = useState('');
+	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { handleNavigate } = useHandleNavigate();
 	const [tasksAmount, setTaksAmount] = useState(5);
 
@@ -49,11 +57,12 @@ const TaskList = () => {
 					isClosable: true,
 				});
 				client.invalidateQueries(['tasks']);
+				onClose();
 			},
 			onError: (e: any) => {
 				const { message } = e?.response?.data;
 				toast({
-					title: 'Ocorreu um erro ao criar a task!',
+					title: 'Ocorreu um erro ao deletar a task!',
 					description: message,
 					status: 'error',
 					position: 'top-right',
@@ -116,7 +125,10 @@ const TaskList = () => {
 							color: 'red.500',
 						}}
 						cursor={'pointer'}
-						onClick={() => handleDeleteTask(row.original.id)}
+						onClick={() => {
+							setSelectedId(row.original.id);
+							onOpen();
+						}}
 					/>
 				</ButtonGroup>
 			),
@@ -132,6 +144,12 @@ const TaskList = () => {
 				tasksAmount={tasksAmount}
 				requireMoreTasks={requireMoreTasks}
 				isLoading={isLoading}
+				deleteLoading={deleteLoading}
+				isOpen={isOpen}
+				onOpen={onOpen}
+				onClose={onClose}
+				handleDeleteTask={handleDeleteTask}
+				selectedId={selectedId}
 			/>
 		</>
 	);
