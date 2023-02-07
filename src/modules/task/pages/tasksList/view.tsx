@@ -26,7 +26,7 @@ interface TaskListViewI {
 	onOpen: () => void;
 	onClose: () => void;
 	handleDeleteTask: (id: number) => void;
-	selectedId: string;
+	selectedId: number | null;
 }
 
 const TaskListView = ({

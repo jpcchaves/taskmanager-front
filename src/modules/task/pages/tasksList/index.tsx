@@ -26,7 +26,7 @@ import useHandleNavigate from '../../../../hooks/useHandleNavigate';
 const TaskList = () => {
 	const client = useQueryClient();
 	const toast = useToast();
-	const [selectedId, setSelectedId] = useState('');
+	const [selectedId, setSelectedId] = useState<number | null>(null);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { handleNavigate } = useHandleNavigate();
 	const [tasksAmount, setTaksAmount] = useState(5);

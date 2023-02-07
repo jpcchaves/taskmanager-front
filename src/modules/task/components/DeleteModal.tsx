@@ -13,7 +13,7 @@ interface DeleteModalPropsI {
 	isOpen: boolean;
 	onClose: () => void;
 	handleDeleteTask: (id: number) => void;
-	selectedId: number;
+	selectedId: number | null;
 }
 
 const DeleteModal = ({
@@ -40,7 +40,7 @@ const DeleteModal = ({
 					</Button>
 					<Button
 						colorScheme='red'
-						onClick={() => handleDeleteTask(selectedId)}
+						onClick={() => handleDeleteTask(selectedId!)}
 					>
 						Deletar
 					</Button>
