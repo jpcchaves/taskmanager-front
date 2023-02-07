@@ -1,11 +1,11 @@
 import { Box, Heading, Spinner } from '@chakra-ui/react';
 
-const ScreenLoader = ({ message = 'Aguarde...' }: { message: string }) => {
+const ScreenLoader = ({ message = 'Aguarde...' }: { message?: string }) => {
 	return (
 		<Box
 			w='full'
-			h='full'
-			position={'absolute'}
+			h='100vh'
+			position={'fixed'}
 			zIndex={'999'}
 			display='flex'
 			justifyContent='center'

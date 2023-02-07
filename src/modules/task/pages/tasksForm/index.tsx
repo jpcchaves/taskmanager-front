@@ -1,31 +1,38 @@
 import { useToast } from '@chakra-ui/react';
 import { useFormik } from 'formik';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../../../../hooks/useApi';
 import useCreateTaskMutation from '../../../../hooks/useCreateTaskMutation';
 import useHandleNavigate from '../../../../hooks/useHandleNavigate';
-import { TaskI } from '../../types/taskI';
 import { tasKValidation } from '../../utils/validation/taskValidationSchema';
 import TasksFormView from './view';
 
 import moment from 'moment';
 import 'moment-timezone';
+import { useMutation } from 'react-query';
 
 const TasksForm = () => {
 	const toast = useToast();
 	const { handleNavigate } = useHandleNavigate();
-	const [taskById, setTaskById] = useState<TaskI>();
 	const { id } = useParams();
 
 	const getTaskById = async () => {
 		const res = await api.get(`/v1/task/${id}`);
-		setTaskById(res.data);
+		return res.data;
 	};
+
+	const {
+		data: taskById,
+		mutate: getTaskByIdMutate,
+		isLoading: taskByIdLoading,
+	} = useMutation(getTaskById, {
+		mutationKey: 'taskById',
+	});
 
 	useEffect(() => {
 		if (id) {
-			getTaskById();
+			getTaskByIdMutate(id, {});
 		} else {
 			return () => {};
 		}
@@ -69,7 +76,15 @@ const TasksForm = () => {
 		},
 	});
 
-	return <TasksFormView validation={validation} isLoading={isLoading} />;
+	return (
+		<TasksFormView
+			validation={validation}
+			isLoading={isLoading}
+			taskByIdLoading={taskByIdLoading}
+			handleNavigate={handleNavigate}
+			id={id}
+		/>
+	);
 };
 
 export default TasksForm;

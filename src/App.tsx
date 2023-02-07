@@ -7,7 +7,7 @@ const App = () => {
 	return (
 		<Routes>
 			<Route path='/' element={<Navbar />}>
-				<Route path='/' index element={<TaskList />} />
+				<Route index element={<TaskList />} />
 				<Route path='/task/new' element={<TasksForm />} />
 				<Route path='/task/edit/:id' element={<TasksForm />} />
 			</Route>
