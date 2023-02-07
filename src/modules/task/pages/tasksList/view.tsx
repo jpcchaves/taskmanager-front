@@ -23,7 +23,6 @@ interface TaskListViewI {
 	isLoading: boolean;
 	deleteLoading: boolean;
 	isOpen: boolean;
-	onOpen: () => void;
 	onClose: () => void;
 	handleDeleteTask: (id: number) => void;
 	selectedId: number | null;
@@ -39,7 +38,6 @@ const TaskListView = ({
 	deleteLoading,
 	isOpen,
 	onClose,
-	onOpen,
 	handleDeleteTask,
 	selectedId,
 }: TaskListViewI) => {

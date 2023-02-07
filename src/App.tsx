@@ -9,6 +9,7 @@ const App = () => {
 			<Route path='/' element={<Navbar />}>
 				<Route path='/' index element={<TaskList />} />
 				<Route path='/task/new' element={<TasksForm />} />
+				<Route path='/task/edit/:id' element={<TasksForm />} />
 			</Route>
 		</Routes>
 	);

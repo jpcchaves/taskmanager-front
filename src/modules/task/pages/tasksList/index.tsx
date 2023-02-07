@@ -73,7 +73,7 @@ const TaskList = () => {
 	};
 
 	const handleEditTask = (id: number) => {
-		console.log(id);
+		handleNavigate(`/task/edit/${id}`);
 	};
 
 	const columns = [
@@ -145,7 +145,6 @@ const TaskList = () => {
 				isLoading={isLoading}
 				deleteLoading={deleteLoading}
 				isOpen={isOpen}
-				onOpen={onOpen}
 				onClose={onClose}
 				handleDeleteTask={handleDeleteTask}
 				selectedId={selectedId}
