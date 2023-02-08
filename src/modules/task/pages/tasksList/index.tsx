@@ -5,7 +5,6 @@ import { api } from '../../../../hooks/useApi';
 import {
 	ButtonGroup,
 	Checkbox,
-	Flex,
 	Text,
 	useDisclosure,
 	useToast,
@@ -22,6 +21,7 @@ import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
 import useDeleteTaskMutation from '../../../../hooks/useDeleteTaskMutation';
 import useHandleNavigate from '../../../../hooks/useHandleNavigate';
+import useToggleConcludedMutation from '../../../../hooks/useToggleConcludedMutation';
 
 const TaskList = () => {
 	const client = useQueryClient();
@@ -33,6 +33,8 @@ const TaskList = () => {
 
 	const { mutate: deleteMutate, isLoading: deleteLoading } =
 		useDeleteTaskMutation();
+
+	const { mutate: toggleConcludedMutation } = useToggleConcludedMutation();
 
 	const requireMoreTasks = () => {
 		setTaksAmount((prevState) => prevState + 5);
@@ -76,6 +78,28 @@ const TaskList = () => {
 		handleNavigate(`/task/edit/${id}`);
 	};
 
+	const handleToggleConcluded = async (row: TaskI) => {
+		const { id, concluded } = row;
+
+		const inverseConcluded = {
+			id,
+			concluded: !concluded,
+		};
+
+		toggleConcludedMutation(inverseConcluded, {
+			onSuccess: () => {
+				toast({
+					title: 'Task atualizada com sucesso!',
+					status: 'success',
+					position: 'top-right',
+					duration: 3000,
+					isClosable: true,
+				});
+				client.invalidateQueries(['tasks']);
+			},
+		});
+	};
+
 	const columns = [
 		columnHelper.accessor('task', {
 			cell: (info) => (
@@ -97,10 +121,12 @@ const TaskList = () => {
 		}),
 		columnHelper.accessor('concluded', {
 			cell: (info) => (
-				<Flex gap={'2'}>
-					<Checkbox defaultChecked={info.getValue()} />
-					<Text>{info.getValue() ? 'Concluída' : 'Não Concluída'}</Text>
-				</Flex>
+				<Checkbox
+					defaultChecked={info.getValue()}
+					onChange={() => handleToggleConcluded(info.row.original)}
+				>
+					{info.getValue() ? 'Concluída' : 'Não Concluída'}
+				</Checkbox>
 			),
 			header: 'Situação',
 		}),
