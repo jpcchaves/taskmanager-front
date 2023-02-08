@@ -1,11 +1,14 @@
 import {
+	Box,
 	Button,
+	Checkbox,
 	Container,
 	Flex,
 	FormControl,
 	FormLabel,
 	Heading,
 	Input,
+	Tooltip,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { FormikHelpers, FormikValues } from 'formik/dist/types';
@@ -88,6 +91,24 @@ const TasksFormView = ({
 							/>
 							{validation.touched.deadline && validation.errors.deadline ? (
 								<FormInvalidFeedback message={validation.errors.deadline} />
+							) : null}
+
+							{id ? (
+								<Box mt={'4'}>
+									<Checkbox
+										name='concluded'
+										onChange={validation.handleChange}
+										isChecked={validation.values.concluded}
+									>
+										<Tooltip
+											label='Clique na caixa ao lado para concluir a tarefa'
+											hasArrow
+											placement='bottom-start'
+										>
+											Concluída?
+										</Tooltip>
+									</Checkbox>
+								</Box>
 							) : null}
 
 							<Flex mt='8' justifyContent='flex-end' gap={'2'}>

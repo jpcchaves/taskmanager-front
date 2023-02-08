@@ -38,6 +38,7 @@ const TasksForm = () => {
 			deadline: taskById
 				? moment(taskById.deadline).utc().format('YYYY-MM-DDThh:mm')
 				: '',
+			concluded: taskById ? taskById.concluded : false,
 		},
 		validationSchema: tasKValidation,
 		onSubmit: (values) => {
