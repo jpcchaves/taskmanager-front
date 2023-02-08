@@ -21,6 +21,7 @@ interface TaskFormViewI {
 	taskByIdLoading: boolean;
 	id: string | undefined;
 	handleNavigate: (path: string) => void;
+	updateLoading: boolean;
 }
 
 const TasksFormView = ({
@@ -29,10 +30,15 @@ const TasksFormView = ({
 	taskByIdLoading,
 	id,
 	handleNavigate,
+	updateLoading,
 }: TaskFormViewI) => {
 	return (
 		<>
-			{taskByIdLoading ? <ScreenLoader /> : null}
+			{taskByIdLoading || updateLoading ? (
+				<ScreenLoader
+					message={updateLoading ? 'Atualizando a task...' : 'Carregando...'}
+				/>
+			) : null}
 			<Container maxW={{ lg: '3xl', md: '5xl', sm: 'container.xl' }} pt={'6'}>
 				<FormControl
 					border={'1px solid #ccc'}

@@ -9,6 +9,10 @@ import TasksFormView from './view';
 
 import moment from 'moment';
 import useGetTaskByIdMutation from '../../../../hooks/useGetTaskByIdMutation';
+import { TaskI } from '../../types/taskI';
+import { api } from '../../../../hooks/useApi';
+import { useMutation } from 'react-query';
+import useUpdateTaskMutation from '../../../../hooks/useUpdateTaskMutation';
 
 const TasksForm = () => {
 	const toast = useToast();
@@ -31,6 +35,9 @@ const TasksForm = () => {
 
 	const { mutate: createTaskMutate, isLoading } = useCreateTaskMutation();
 
+	const { mutate: updateTaskMutate, isLoading: updateLoading } =
+		useUpdateTaskMutation();
+
 	const validation = useFormik({
 		enableReinitialize: true,
 		initialValues: {
@@ -42,29 +49,60 @@ const TasksForm = () => {
 		},
 		validationSchema: tasKValidation,
 		onSubmit: (values) => {
-			createTaskMutate(values, {
-				onSuccess: () => {
-					toast({
-						title: 'Task criada com sucesso!',
-						status: 'success',
-						position: 'top-right',
-						duration: 3000,
-						isClosable: true,
-					});
-					handleNavigate('/');
-				},
-				onError: (e: any) => {
-					const { message } = e?.response?.data;
-					toast({
-						title: 'Ocorreu um erro ao criar a task!',
-						description: message,
-						status: 'error',
-						position: 'top-right',
-						duration: 3000,
-						isClosable: true,
-					});
-				},
-			});
+			if (id) {
+				const valuesToSubmit = {
+					id,
+					...values,
+				};
+
+				updateTaskMutate(valuesToSubmit, {
+					onSuccess: () => {
+						toast({
+							title: 'Task editada com sucesso!',
+							status: 'success',
+							position: 'top-right',
+							duration: 3000,
+							isClosable: true,
+						});
+						handleNavigate('/');
+					},
+					onError: (e: any) => {
+						const { message } = e?.response?.data;
+						toast({
+							title: 'Ocorreu um erro ao criar a task!',
+							description: message,
+							status: 'error',
+							position: 'top-right',
+							duration: 3000,
+							isClosable: true,
+						});
+					},
+				});
+			} else {
+				createTaskMutate(values, {
+					onSuccess: () => {
+						toast({
+							title: 'Task criada com sucesso!',
+							status: 'success',
+							position: 'top-right',
+							duration: 3000,
+							isClosable: true,
+						});
+						handleNavigate('/');
+					},
+					onError: (e: any) => {
+						const { message } = e?.response?.data;
+						toast({
+							title: 'Ocorreu um erro ao criar a task!',
+							description: message,
+							status: 'error',
+							position: 'top-right',
+							duration: 3000,
+							isClosable: true,
+						});
+					},
+				});
+			}
 		},
 	});
 
@@ -72,6 +110,7 @@ const TasksForm = () => {
 		<TasksFormView
 			validation={validation}
 			isLoading={isLoading}
+			updateLoading={updateLoading}
 			taskByIdLoading={taskByIdLoading}
 			handleNavigate={handleNavigate}
 			id={id}
