@@ -8,7 +8,6 @@ import { tasKValidation } from '../../utils/validation/taskValidationSchema';
 import TasksFormView from './view';
 
 import moment from 'moment';
-import 'moment-timezone';
 import useGetTaskByIdMutation from '../../../../hooks/useGetTaskByIdMutation';
 
 const TasksForm = () => {
@@ -37,7 +36,7 @@ const TasksForm = () => {
 		initialValues: {
 			task: taskById ? taskById.task : '',
 			deadline: taskById
-				? moment(taskById.deadline).format('YYYY-MM-DDThh:mm')
+				? moment(taskById.deadline).utc().format('YYYY-MM-DDThh:mm')
 				: '',
 		},
 		validationSchema: tasKValidation,
