@@ -26,6 +26,7 @@ interface TaskListViewI {
 	onClose: () => void;
 	handleDeleteTask: (id: number) => void;
 	selectedId: number | null;
+	toggleConcludedLoading: boolean;
 }
 
 const TaskListView = ({
@@ -40,6 +41,7 @@ const TaskListView = ({
 	onClose,
 	handleDeleteTask,
 	selectedId,
+	toggleConcludedLoading,
 }: TaskListViewI) => {
 	let count = 0;
 	data?.map((t) => (t.concluded !== true ? count++ : null));
@@ -48,6 +50,10 @@ const TaskListView = ({
 		<Box pb={'36'}>
 			{deleteLoading ? (
 				<ScreenLoader message='Sua task está sendo deletada...' />
+			) : null}
+
+			{toggleConcludedLoading ? (
+				<ScreenLoader message='Sua task está sendo atualizada...' />
 			) : null}
 
 			<DeleteModal

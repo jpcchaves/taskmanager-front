@@ -34,7 +34,7 @@ const TaskList = () => {
 	const { mutate: deleteMutate, isLoading: deleteLoading } =
 		useDeleteTaskMutation();
 
-	const { mutate: toggleConcludedMutation } = useToggleConcludedMutation();
+	const { mutate: toggleConcludedMutation, isLoading: toggleConcludedLoading } = useToggleConcludedMutation();
 
 	const requireMoreTasks = () => {
 		setTaksAmount((prevState) => prevState + 5);
@@ -174,6 +174,7 @@ const TaskList = () => {
 				onClose={onClose}
 				handleDeleteTask={handleDeleteTask}
 				selectedId={selectedId}
+				toggleConcludedLoading={toggleConcludedLoading}
 			/>
 		</>
 	);
