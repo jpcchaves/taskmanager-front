@@ -7,7 +7,7 @@ interface TogglePayloadI {
 }
 
 const useToggleConcludedMutation = () => {
-	const updateTask = async ({ id, ...concluded }: TogglePayloadI) => {
+	const updateTask = async ({ id, concluded }: TogglePayloadI) => {
 		return await api.patch(`/v1/task/${id}`, concluded);
 	};
 
