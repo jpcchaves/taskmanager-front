@@ -10,6 +10,7 @@ import TasksFormView from './view';
 import moment from 'moment';
 import useGetTaskByIdMutation from '../../../../hooks/useGetTaskByIdMutation';
 import useUpdateTaskMutation from '../../../../hooks/useUpdateTaskMutation';
+import { FormPayloadI } from '../../types/formPayloadI';
 
 const TasksForm = () => {
 	const toast = useToast();
@@ -45,11 +46,11 @@ const TasksForm = () => {
 			concluded: taskById ? taskById.concluded : false,
 		},
 		validationSchema: tasKValidation,
-		onSubmit: (values) => {
+		onSubmit: (values: FormPayloadI) => {
 			if (id) {
 				const valuesToSubmit = {
 					id,
-					...values,
+					formPayload: values,
 				};
 
 				updateTaskMutate(valuesToSubmit, {
