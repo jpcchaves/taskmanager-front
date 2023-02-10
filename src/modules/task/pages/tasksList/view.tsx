@@ -14,6 +14,9 @@ import { TaskI } from '../../types/taskI';
 import { motion } from 'framer-motion';
 import ScreenLoader from '../../../../common/screenLoader';
 import DeleteModal from '../../components/DeleteModal';
+
+import Lottie from 'lottie-react';
+import ManWithTasklist from '../../../../assets/animations/man-with-tasklist.json';
 interface TaskListViewI {
 	data: Array<TaskI>;
 	columns: ColumnDef<TaskI, any>[];
@@ -63,25 +66,46 @@ const TaskListView = ({
 				selectedId={selectedId}
 			/>
 
-			<Container pt='6' pb='2'>
-				<Box>
-					<Heading size='md' textAlign={'center'}>
-						Atualmente você possui {count} tasks não concluídas
-					</Heading>
-				</Box>
-			</Container>
 			<Container maxW={'1200'}>
-				<TasksTable columns={columns} data={data} />
-				<Flex pt='4' justifyContent={'center'}>
-					<Button
-						onClick={() => requireMoreTasks()}
-						colorScheme='blue'
-						isLoading={isLoading}
-						mt='8'
-					>
-						Carregar mais tasks
-					</Button>
-				</Flex>
+				{data?.length ? (
+					<Container maxW='full'>
+						<Container pt='6' pb='2'>
+							<Box>
+								<Heading size='md' textAlign={'center'}>
+									Atualmente você possui {count} tasks não concluídas
+								</Heading>
+							</Box>
+						</Container>
+						<TasksTable columns={columns} data={data} />
+						<Flex pt='4' justifyContent={'center'}>
+							<Button
+								onClick={() => requireMoreTasks()}
+								colorScheme='blue'
+								isLoading={isLoading}
+								mt='8'
+							>
+								Carregar mais tasks
+							</Button>
+						</Flex>
+					</Container>
+				) : (
+					<Flex justifyContent={'center'} alignItems={'center'}>
+						<Box boxSize={'container.sm'}>
+							<Box>
+								<Heading
+									size='md'
+									textAlign={'center'}
+									marginBottom={{ lg: '-32', md: '-24', sm: '-1' }}
+									marginTop={'6'}
+								>
+									Você ainda não possui nenhuma task cadastrada. Comece a se
+									planejar!
+								</Heading>
+							</Box>
+							<Lottie animationData={ManWithTasklist} />
+						</Box>
+					</Flex>
+				)}
 			</Container>
 
 			<Tooltip label='Adicionar nova tarefa' hasArrow>
