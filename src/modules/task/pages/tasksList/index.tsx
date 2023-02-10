@@ -50,7 +50,7 @@ const TaskList = () => {
 	const columnHelper = createColumnHelper<TaskI>();
 
 	const handleDeleteTask = (id: number) => {
-		deleteMutate(id, {
+		deleteMutate(void id, {
 			onSuccess: () => {
 				toast({
 					title: 'Task deletada com sucesso!',
