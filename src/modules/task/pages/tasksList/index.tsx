@@ -6,6 +6,7 @@ import {
 	ButtonGroup,
 	Checkbox,
 	Text,
+	Tooltip,
 	useDisclosure,
 	useToast,
 } from '@chakra-ui/react';
@@ -135,27 +136,31 @@ const TaskList = () => {
 			header: 'Ações',
 			cell: ({ row }: { row: any }) => (
 				<ButtonGroup display={'flex'} gap='2'>
-					<EditIcon
-						color={'green.300'}
-						transition={'0.2s'}
-						_hover={{
-							color: 'green.500',
-						}}
-						cursor={'pointer'}
-						onClick={() => handleEditTask(row.original.id)}
-					/>
-					<DeleteIcon
-						color={'red.300'}
-						transition={'0.2s'}
-						_hover={{
-							color: 'red.500',
-						}}
-						cursor={'pointer'}
-						onClick={() => {
-							setSelectedId(row.original.id);
-							onOpen();
-						}}
-					/>
+					<Tooltip label='Editar task' placement='top-end' hasArrow>
+						<EditIcon
+							color={'green.300'}
+							transition={'0.2s'}
+							_hover={{
+								color: 'green.500',
+							}}
+							cursor={'pointer'}
+							onClick={() => handleEditTask(row.original.id)}
+						/>
+					</Tooltip>
+					<Tooltip label='Deletar task' placement='top-end' hasArrow>
+						<DeleteIcon
+							color={'red.300'}
+							transition={'0.2s'}
+							_hover={{
+								color: 'red.500',
+							}}
+							cursor={'pointer'}
+							onClick={() => {
+								setSelectedId(row.original.id);
+								onOpen();
+							}}
+						/>
+					</Tooltip>
 				</ButtonGroup>
 			),
 		},
