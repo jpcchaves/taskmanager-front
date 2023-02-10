@@ -1,10 +1,6 @@
 import { useMutation } from 'react-query';
+import { TogglePayloadI } from '../modules/task/types/TogglePayloadI';
 import { api } from './useApi';
-
-interface TogglePayloadI {
-	id: number | undefined;
-	concluded: boolean;
-}
 
 const useToggleConcludedMutation = () => {
 	const updateTask = async ({ id, concluded }: TogglePayloadI) => {

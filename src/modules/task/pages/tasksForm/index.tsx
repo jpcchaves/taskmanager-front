@@ -9,9 +9,6 @@ import TasksFormView from './view';
 
 import moment from 'moment';
 import useGetTaskByIdMutation from '../../../../hooks/useGetTaskByIdMutation';
-import { TaskI } from '../../types/taskI';
-import { api } from '../../../../hooks/useApi';
-import { useMutation } from 'react-query';
 import useUpdateTaskMutation from '../../../../hooks/useUpdateTaskMutation';
 
 const TasksForm = () => {
