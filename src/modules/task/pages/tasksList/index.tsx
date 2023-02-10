@@ -30,7 +30,7 @@ const TaskList = () => {
 	const [selectedId, setSelectedId] = useState<number | null>(null);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { handleNavigate } = useHandleNavigate();
-	const [tasksAmount, setTaksAmount] = useState(5);
+	const [tasksAmount, setTaksAmount] = useState(10);
 
 	const { mutate: deleteMutate, isLoading: deleteLoading } =
 		useDeleteTaskMutation();
@@ -39,14 +39,23 @@ const TaskList = () => {
 		useToggleConcludedMutation();
 
 	const requireMoreTasks = () => {
-		setTaksAmount((prevState) => prevState + 5);
+		setTaksAmount((prevState) => prevState + 10);
 	};
 
 	const getTasks = async () => {
-		const { data } = await api.get(`/v1/task?size=${tasksAmount}`);
+		const { data } = await api.get(
+			`/v1/task?size=${tasksAmount}&orderBy=createdAt&direction=DESC`
+		);
 		return data.content;
 	};
-	const { data, isLoading } = useQuery(['tasks', tasksAmount], getTasks);
+	const { data, isLoading, isFetching } = useQuery(
+		['tasks', tasksAmount],
+		getTasks,
+		{
+			refetchOnWindowFocus: false,
+			keepPreviousData: true,
+		}
+	);
 
 	const columnHelper = createColumnHelper<TaskI>();
 
