@@ -5,6 +5,7 @@ import {
 	Container,
 	Flex,
 	Heading,
+	keyframes,
 	Tooltip,
 } from '@chakra-ui/react';
 import { ColumnDef } from '@tanstack/react-table';
@@ -123,7 +124,9 @@ const TaskListView = ({
 						cursor={'pointer'}
 						colorScheme={'blue'}
 						animate={{
+							opacity: [0, 1],
 							scale: [0, 1],
+							rotate: [0, 360],
 						}}
 						// @ts-ignore no problem in operation, although type error appears.
 						transition={{
@@ -138,7 +141,7 @@ const TaskListView = ({
 						width={12}
 						height={12}
 						zIndex={3}
-						whileHover={{ scale: 1.05 }}
+						whileHover={{ scale: 1.1 }}
 					>
 						<ArrowUpIcon />
 					</Button>
@@ -153,12 +156,8 @@ const TaskListView = ({
 					right={5}
 					width={12}
 					height={12}
-					bg={'blue.300'}
+					colorScheme={'blue'}
 					rounded={'full'}
-					_hover={{
-						bg: 'blue.500',
-						color: 'white',
-					}}
 					whileHover={{ rotate: 270, scale: 1.05 }}
 					transition='0.2s linear'
 					onClick={() => handleNavigate('/task/new')}
