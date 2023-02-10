@@ -21,7 +21,7 @@ const TasksForm = () => {
 		data: taskById,
 		mutate: getTaskByIdMutate,
 		isLoading: taskByIdLoading,
-	} = useGetTaskByIdMutation(id);
+	} = useGetTaskByIdMutation();
 
 	useEffect(() => {
 		if (id) {
