@@ -5,7 +5,6 @@ import {
 	Container,
 	Flex,
 	Heading,
-	keyframes,
 	Tooltip,
 } from '@chakra-ui/react';
 import { ColumnDef } from '@tanstack/react-table';
