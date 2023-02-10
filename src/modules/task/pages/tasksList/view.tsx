@@ -67,7 +67,24 @@ const TaskListView = ({
 			/>
 
 			<Container maxW={'1200'}>
-				{data?.length ? (
+				{!data?.length && !isLoading ? (
+					<Flex justifyContent={'center'} alignItems={'center'}>
+						<Box boxSize={'container.sm'}>
+							<Box>
+								<Heading
+									size='md'
+									textAlign={'center'}
+									marginBottom={{ lg: '-32', md: '-24', sm: '-1' }}
+									marginTop={'6'}
+								>
+									Você ainda não possui nenhuma task cadastrada. Comece a se
+									planejar!
+								</Heading>
+							</Box>
+							<Lottie animationData={ManWithTasklist} />
+						</Box>
+					</Flex>
+				) : (
 					<Container maxW='full'>
 						<Container pt='6' pb='2'>
 							<Box>
@@ -88,23 +105,6 @@ const TaskListView = ({
 							</Button>
 						</Flex>
 					</Container>
-				) : (
-					<Flex justifyContent={'center'} alignItems={'center'}>
-						<Box boxSize={'container.sm'}>
-							<Box>
-								<Heading
-									size='md'
-									textAlign={'center'}
-									marginBottom={{ lg: '-32', md: '-24', sm: '-1' }}
-									marginTop={'6'}
-								>
-									Você ainda não possui nenhuma task cadastrada. Comece a se
-									planejar!
-								</Heading>
-							</Box>
-							<Lottie animationData={ManWithTasklist} />
-						</Box>
-					</Flex>
 				)}
 			</Container>
 

@@ -4,7 +4,11 @@ import { api } from './useApi';
 
 const useToggleConcludedMutation = () => {
 	const updateTask = async ({ id, concluded }: TogglePayloadI) => {
-		return await api.patch(`/v1/task/${id}`, concluded);
+		const updatedConcluded = {
+			concluded,
+		};
+
+		return await api.patch(`/v1/task/${id}`, updatedConcluded);
 	};
 
 	const updateConcludedMutation = useMutation({
