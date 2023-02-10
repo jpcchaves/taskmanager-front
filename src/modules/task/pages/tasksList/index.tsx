@@ -46,7 +46,9 @@ const TaskList = () => {
 		const { data } = await api.get(`/v1/task?size=${tasksAmount}`);
 		return data.content;
 	};
-	const { data, isLoading } = useQuery(['tasks', tasksAmount], getTasks);
+	const { data, isLoading } = useQuery(['tasks', tasksAmount], getTasks, {
+		refetchOnWindowFocus: false,
+	});
 
 	const columnHelper = createColumnHelper<TaskI>();
 
