@@ -1,4 +1,4 @@
-import { AddIcon } from '@chakra-ui/icons';
+import { AddIcon, ArrowUpIcon } from '@chakra-ui/icons';
 import {
 	Box,
 	Button,
@@ -31,6 +31,8 @@ interface TaskListViewI {
 	selectedId: number | null;
 	toggleConcludedLoading: boolean;
 	isRefetching: boolean;
+	isVisible: boolean;
+	scrollToTop: () => void;
 }
 
 const TaskListView = ({
@@ -47,6 +49,8 @@ const TaskListView = ({
 	selectedId,
 	toggleConcludedLoading,
 	isRefetching,
+	isVisible,
+	scrollToTop,
 }: TaskListViewI) => {
 	let count = 0;
 	data?.map((t) => (t.concluded !== true ? count++ : null));
@@ -112,11 +116,40 @@ const TaskListView = ({
 				)}
 			</Container>
 
-			<Tooltip label='Adicionar nova tarefa' hasArrow>
+			{isVisible && (
+				<Tooltip label='Voltar para o topo' hasArrow placement='left'>
+					<Button
+						as={motion.div}
+						cursor={'pointer'}
+						colorScheme={'blue'}
+						animate={{
+							scale: [0, 1],
+						}}
+						// @ts-ignore no problem in operation, although type error appears.
+						transition={{
+							duration: 1,
+							ease: 'linear',
+						}}
+						onClick={scrollToTop}
+						position='fixed'
+						bottom={'7'}
+						rounded={'full'}
+						right={5}
+						width={12}
+						height={12}
+						zIndex={3}
+						whileHover={{ scale: 1.05 }}
+					>
+						<ArrowUpIcon />
+					</Button>
+				</Tooltip>
+			)}
+
+			<Tooltip label='Adicionar nova tarefa' hasArrow placement='left'>
 				<Button
 					as={motion.button}
 					position={'fixed'}
-					bottom={7}
+					bottom={isVisible ? '20' : '7'}
 					right={5}
 					width={12}
 					height={12}
@@ -126,7 +159,7 @@ const TaskListView = ({
 						bg: 'blue.500',
 						color: 'white',
 					}}
-					whileHover={{ rotate: 180, scale: 1.05 }}
+					whileHover={{ rotate: 270, scale: 1.05 }}
 					transition='0.2s linear'
 					onClick={() => handleNavigate('/task/new')}
 				>

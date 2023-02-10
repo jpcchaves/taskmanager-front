@@ -19,7 +19,7 @@ import 'moment-timezone';
 import { TaskI } from '../../types/taskI';
 // Hooks
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useDeleteTaskMutation from '../../../../hooks/useDeleteTaskMutation';
 import useHandleNavigate from '../../../../hooks/useHandleNavigate';
 import useToggleConcludedMutation from '../../../../hooks/useToggleConcludedMutation';
@@ -31,6 +31,28 @@ const TaskList = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { handleNavigate } = useHandleNavigate();
 	const [tasksAmount, setTaksAmount] = useState(10);
+	const [isVisible, setIsVisible] = useState(false);
+
+	const scrollToTop = () => {
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		});
+	};
+
+	useEffect(() => {
+		const toggleVisibility = () => {
+			if (window.pageYOffset > 500) {
+				setIsVisible(true);
+			} else {
+				setIsVisible(false);
+			}
+		};
+
+		window.addEventListener('scroll', toggleVisibility);
+
+		return () => window.removeEventListener('scroll', toggleVisibility);
+	}, []);
 
 	const { mutate: deleteMutate, isLoading: deleteLoading } =
 		useDeleteTaskMutation();
@@ -191,6 +213,8 @@ const TaskList = () => {
 				selectedId={selectedId}
 				toggleConcludedLoading={toggleConcludedLoading}
 				isRefetching={isRefetching}
+				isVisible={isVisible}
+				scrollToTop={scrollToTop}
 			/>
 		</>
 	);
