@@ -14,6 +14,7 @@ import { Form, Formik } from 'formik';
 import { FormikHelpers, FormikValues } from 'formik/dist/types';
 import ScreenLoader from '../../../../common/screenLoader';
 import FormInvalidFeedback from '../../components/FormInvalidFeedback';
+import { TaskI } from '../../types/taskI';
 
 interface TaskFormViewI {
 	validation: FormikValues;
@@ -22,6 +23,7 @@ interface TaskFormViewI {
 	id: string | undefined;
 	handleNavigate: (path: string) => void;
 	updateLoading: boolean;
+	taskById: TaskI;
 }
 
 const TasksFormView = ({
@@ -31,6 +33,7 @@ const TasksFormView = ({
 	id,
 	handleNavigate,
 	updateLoading,
+	taskById,
 }: TaskFormViewI) => {
 	return (
 		<>
@@ -47,7 +50,7 @@ const TasksFormView = ({
 					boxShadow={'lg'}
 				>
 					<Heading size='md' textAlign={'center'}>
-						Criar nova task
+						{id ? `Editando a task: ${taskById?.task}` : 'Criar nova task'}
 					</Heading>
 					<Formik
 						initialValues={{

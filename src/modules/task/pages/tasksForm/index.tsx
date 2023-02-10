@@ -113,6 +113,7 @@ const TasksForm = () => {
 			updateLoading={updateLoading}
 			taskByIdLoading={taskByIdLoading}
 			handleNavigate={handleNavigate}
+			taskById={taskById}
 			id={id}
 		/>
 	);
