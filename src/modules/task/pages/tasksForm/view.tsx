@@ -50,7 +50,9 @@ const TasksFormView = ({
 					boxShadow={'lg'}
 				>
 					<Heading size='md' textAlign={'center'}>
-						{id ? `Editando a task: ${taskById?.task}` : 'Criar nova task'}
+						{id
+							? `Editando a task: ${taskById?.task || ''}`
+							: 'Criar nova task'}
 					</Heading>
 					<Formik
 						initialValues={{
