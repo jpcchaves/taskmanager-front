@@ -23,13 +23,14 @@ interface TaskListViewI {
 	handleNavigate: (path: string) => void;
 	tasksAmount: number;
 	requireMoreTasks: () => void;
-	isLoading: boolean;
+	tasksLoading: boolean;
 	deleteLoading: boolean;
 	isOpen: boolean;
 	onClose: () => void;
 	handleDeleteTask: (id: number) => void;
 	selectedId: number | null;
 	toggleConcludedLoading: boolean;
+	isRefetching: boolean;
 }
 
 const TaskListView = ({
@@ -38,13 +39,14 @@ const TaskListView = ({
 	handleNavigate,
 	tasksAmount,
 	requireMoreTasks,
-	isLoading,
+	tasksLoading,
 	deleteLoading,
 	isOpen,
 	onClose,
 	handleDeleteTask,
 	selectedId,
 	toggleConcludedLoading,
+	isRefetching,
 }: TaskListViewI) => {
 	let count = 0;
 	data?.map((t) => (t.concluded !== true ? count++ : null));
@@ -59,6 +61,8 @@ const TaskListView = ({
 				<ScreenLoader message='Sua task está sendo atualizada...' />
 			) : null}
 
+			{tasksLoading ? <ScreenLoader message='Buscando tasks...' /> : null}
+
 			<DeleteModal
 				isOpen={isOpen}
 				onClose={onClose}
@@ -67,7 +71,7 @@ const TaskListView = ({
 			/>
 
 			<Container maxW={'1200'}>
-				{!data?.length && !isLoading ? (
+				{!data?.length && !tasksLoading ? (
 					<Flex justifyContent={'center'} alignItems={'center'}>
 						<Box boxSize={'container.sm'}>
 							<Box>
@@ -98,7 +102,7 @@ const TaskListView = ({
 							<Button
 								onClick={() => requireMoreTasks()}
 								colorScheme='blue'
-								isLoading={isLoading}
+								isLoading={isRefetching}
 								mt='8'
 							>
 								Carregar mais tasks

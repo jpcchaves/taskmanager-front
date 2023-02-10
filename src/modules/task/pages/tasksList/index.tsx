@@ -48,14 +48,14 @@ const TaskList = () => {
 		);
 		return data.content;
 	};
-	const { data, isLoading, isFetching } = useQuery(
-		['tasks', tasksAmount],
-		getTasks,
-		{
-			refetchOnWindowFocus: false,
-			keepPreviousData: true,
-		}
-	);
+	const {
+		data,
+		isLoading: tasksLoading,
+		isRefetching,
+	} = useQuery(['tasks', tasksAmount], getTasks, {
+		refetchOnWindowFocus: false,
+		keepPreviousData: true,
+	});
 
 	const columnHelper = createColumnHelper<TaskI>();
 
@@ -183,13 +183,14 @@ const TaskList = () => {
 				handleNavigate={handleNavigate}
 				tasksAmount={tasksAmount}
 				requireMoreTasks={requireMoreTasks}
-				isLoading={isLoading}
+				tasksLoading={tasksLoading}
 				deleteLoading={deleteLoading}
 				isOpen={isOpen}
 				onClose={onClose}
 				handleDeleteTask={handleDeleteTask}
 				selectedId={selectedId}
 				toggleConcludedLoading={toggleConcludedLoading}
+				isRefetching={isRefetching}
 			/>
 		</>
 	);
