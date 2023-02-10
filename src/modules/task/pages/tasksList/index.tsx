@@ -6,6 +6,7 @@ import {
 	ButtonGroup,
 	Checkbox,
 	Text,
+	Tooltip,
 	useDisclosure,
 	useToast,
 } from '@chakra-ui/react';
@@ -18,7 +19,7 @@ import 'moment-timezone';
 import { TaskI } from '../../types/taskI';
 // Hooks
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useDeleteTaskMutation from '../../../../hooks/useDeleteTaskMutation';
 import useHandleNavigate from '../../../../hooks/useHandleNavigate';
 import useToggleConcludedMutation from '../../../../hooks/useToggleConcludedMutation';
@@ -29,22 +30,54 @@ const TaskList = () => {
 	const [selectedId, setSelectedId] = useState<number | null>(null);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { handleNavigate } = useHandleNavigate();
-	const [tasksAmount, setTaksAmount] = useState(5);
+	const [tasksAmount, setTaksAmount] = useState(10);
+	const [isVisible, setIsVisible] = useState(false);
+
+	const scrollToTop = () => {
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		});
+	};
+
+	useEffect(() => {
+		const toggleVisibility = () => {
+			if (window.pageYOffset > 500) {
+				setIsVisible(true);
+			} else {
+				setIsVisible(false);
+			}
+		};
+
+		window.addEventListener('scroll', toggleVisibility);
+
+		return () => window.removeEventListener('scroll', toggleVisibility);
+	}, []);
 
 	const { mutate: deleteMutate, isLoading: deleteLoading } =
 		useDeleteTaskMutation();
 
-	const { mutate: toggleConcludedMutation, isLoading: toggleConcludedLoading } = useToggleConcludedMutation();
+	const { mutate: toggleConcludedMutation, isLoading: toggleConcludedLoading } =
+		useToggleConcludedMutation();
 
 	const requireMoreTasks = () => {
-		setTaksAmount((prevState) => prevState + 5);
+		setTaksAmount((prevState) => prevState + 10);
 	};
 
 	const getTasks = async () => {
-		const { data } = await api.get(`/v1/task?size=${tasksAmount}`);
+		const { data } = await api.get(
+			`/v1/task?size=${tasksAmount}&orderBy=createdAt&direction=DESC`
+		);
 		return data.content;
 	};
-	const { data, isLoading } = useQuery(['tasks', tasksAmount], getTasks);
+	const {
+		data,
+		isLoading: tasksLoading,
+		isRefetching,
+	} = useQuery(['tasks', tasksAmount], getTasks, {
+		refetchOnWindowFocus: false,
+		keepPreviousData: true,
+	});
 
 	const columnHelper = createColumnHelper<TaskI>();
 
@@ -134,27 +167,31 @@ const TaskList = () => {
 			header: 'Ações',
 			cell: ({ row }: { row: any }) => (
 				<ButtonGroup display={'flex'} gap='2'>
-					<EditIcon
-						color={'green.300'}
-						transition={'0.2s'}
-						_hover={{
-							color: 'green.500',
-						}}
-						cursor={'pointer'}
-						onClick={() => handleEditTask(row.original.id)}
-					/>
-					<DeleteIcon
-						color={'red.300'}
-						transition={'0.2s'}
-						_hover={{
-							color: 'red.500',
-						}}
-						cursor={'pointer'}
-						onClick={() => {
-							setSelectedId(row.original.id);
-							onOpen();
-						}}
-					/>
+					<Tooltip label='Editar task' placement='top-end' hasArrow>
+						<EditIcon
+							color={'green.300'}
+							transition={'0.2s'}
+							_hover={{
+								color: 'green.500',
+							}}
+							cursor={'pointer'}
+							onClick={() => handleEditTask(row.original.id)}
+						/>
+					</Tooltip>
+					<Tooltip label='Deletar task' placement='top-end' hasArrow>
+						<DeleteIcon
+							color={'red.300'}
+							transition={'0.2s'}
+							_hover={{
+								color: 'red.500',
+							}}
+							cursor={'pointer'}
+							onClick={() => {
+								setSelectedId(row.original.id);
+								onOpen();
+							}}
+						/>
+					</Tooltip>
 				</ButtonGroup>
 			),
 		},
@@ -168,13 +205,16 @@ const TaskList = () => {
 				handleNavigate={handleNavigate}
 				tasksAmount={tasksAmount}
 				requireMoreTasks={requireMoreTasks}
-				isLoading={isLoading}
+				tasksLoading={tasksLoading}
 				deleteLoading={deleteLoading}
 				isOpen={isOpen}
 				onClose={onClose}
 				handleDeleteTask={handleDeleteTask}
 				selectedId={selectedId}
 				toggleConcludedLoading={toggleConcludedLoading}
+				isRefetching={isRefetching}
+				isVisible={isVisible}
+				scrollToTop={scrollToTop}
 			/>
 		</>
 	);

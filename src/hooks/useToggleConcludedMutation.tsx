@@ -1,25 +1,24 @@
 import { useMutation } from 'react-query';
+import { TogglePayloadI } from '../modules/task/types/TogglePayloadI';
 import { api } from './useApi';
 
 const useToggleConcludedMutation = () => {
-	const updateTask = async ({
-		id,
-		...concluded
-	}: {
-		id: string | undefined;
-		concluded: boolean;
-	}) => {
-		return await api.patch(`/v1/task/${id}`, concluded);
+	const updateTask = async ({ id, concluded }: TogglePayloadI) => {
+		const updatedConcluded = {
+			concluded,
+		};
+
+		return await api.patch(`/v1/task/${id}`, updatedConcluded);
 	};
 
-	const updateConcludedMutation = () => {
-		return useMutation(async (concludedPayload) => {
-			return updateTask(concludedPayload!);
-		});
-	};
-	const { mutate, isLoading } = updateConcludedMutation();
+	const updateConcludedMutation = useMutation({
+		mutationFn: (payload: TogglePayloadI) => {
+			return updateTask(payload);
+		},
+	});
 
-	return { mutate, isLoading };
+	const { isLoading, mutate } = updateConcludedMutation;
+
+	return { isLoading, mutate };
 };
-
 export default useToggleConcludedMutation;

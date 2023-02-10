@@ -1,13 +1,19 @@
 import { useMutation } from 'react-query';
+import { FormPayloadI } from '../modules/task/types/formPayloadI';
 import { api } from './useApi';
 
 const useCreateTaskMutation = () => {
-	const createTaskMutation = () => {
-		return useMutation((formPayload) => {
-			return api.post('/v1/task/new', formPayload);
-		});
+	const createTask = async (formPayload: FormPayloadI) => {
+		return await api.post('/v1/task/new', formPayload);
 	};
-	const { mutate, isLoading } = createTaskMutation();
+
+	const createTaskMutation = useMutation({
+		mutationFn: (formPayload: FormPayloadI) => {
+			return createTask(formPayload);
+		},
+	});
+
+	const { mutate, isLoading } = createTaskMutation;
 
 	return { mutate, isLoading };
 };

@@ -2,14 +2,19 @@ import { useMutation, useQueryClient } from 'react-query';
 import { api } from './useApi';
 
 const useDeleteTaskMutation = () => {
-	const deleteTaskMutation = () => {
-		return useMutation((id) => {
-			return api.delete(`/v1/task/${id}`);
-		});
+	const deleteTask = async (id: number) => {
+		return await api.delete(`/v1/task/${id}`);
 	};
-	const { mutate, isLoading, isSuccess } = deleteTaskMutation();
 
-	return { mutate, isLoading, isSuccess };
+	const deleteTaskMutation = useMutation({
+		mutationFn: (id: number) => {
+			return deleteTask(id);
+		},
+	});
+
+	const { mutate, isLoading } = deleteTaskMutation;
+
+	return { mutate, isLoading };
 };
 
 export default useDeleteTaskMutation;

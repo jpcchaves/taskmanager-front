@@ -9,10 +9,8 @@ import TasksFormView from './view';
 
 import moment from 'moment';
 import useGetTaskByIdMutation from '../../../../hooks/useGetTaskByIdMutation';
-import { TaskI } from '../../types/taskI';
-import { api } from '../../../../hooks/useApi';
-import { useMutation } from 'react-query';
 import useUpdateTaskMutation from '../../../../hooks/useUpdateTaskMutation';
+import { FormPayloadI } from '../../types/formPayloadI';
 
 const TasksForm = () => {
 	const toast = useToast();
@@ -23,7 +21,7 @@ const TasksForm = () => {
 		data: taskById,
 		mutate: getTaskByIdMutate,
 		isLoading: taskByIdLoading,
-	} = useGetTaskByIdMutation(id);
+	} = useGetTaskByIdMutation();
 
 	useEffect(() => {
 		if (id) {
@@ -48,11 +46,11 @@ const TasksForm = () => {
 			concluded: taskById ? taskById.concluded : false,
 		},
 		validationSchema: tasKValidation,
-		onSubmit: (values) => {
+		onSubmit: (values: FormPayloadI) => {
 			if (id) {
 				const valuesToSubmit = {
 					id,
-					...values,
+					formPayload: values,
 				};
 
 				updateTaskMutate(valuesToSubmit, {
@@ -113,6 +111,7 @@ const TasksForm = () => {
 			updateLoading={updateLoading}
 			taskByIdLoading={taskByIdLoading}
 			handleNavigate={handleNavigate}
+			taskById={taskById}
 			id={id}
 		/>
 	);
