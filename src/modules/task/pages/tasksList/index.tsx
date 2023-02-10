@@ -42,7 +42,7 @@ const TaskList = () => {
 
 	useEffect(() => {
 		const toggleVisibility = () => {
-			if (window.pageYOffset > 500) {
+			if (window.pageYOffset > 200) {
 				setIsVisible(true);
 			} else {
 				setIsVisible(false);
