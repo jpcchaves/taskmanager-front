@@ -1,5 +1,20 @@
-import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import { Box, chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import {
+	ArrowLeftIcon,
+	ArrowRightIcon,
+	TriangleDownIcon,
+	TriangleUpIcon,
+} from '@chakra-ui/icons';
+import {
+	Box,
+	chakra,
+	Table,
+	Tbody,
+	Td,
+	Text,
+	Th,
+	Thead,
+	Tr,
+} from '@chakra-ui/react';
 import {
 	ColumnDef,
 	flexRender,
@@ -13,11 +28,17 @@ import * as React from 'react';
 export type DataTableProps<Data extends object> = {
 	data: Data[];
 	columns: ColumnDef<Data, any>[];
+	toggleMoreTasks: () => void;
+	toggleLessTasks: () => void;
+	tasksPage: number;
 };
 
 export function TasksTable<Data extends object>({
 	data,
 	columns,
+	toggleMoreTasks,
+	toggleLessTasks,
+	tasksPage,
 }: DataTableProps<Data>) {
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const table = useReactTable({
@@ -81,6 +102,27 @@ export function TasksTable<Data extends object>({
 						))}
 				</Tbody>
 			</Table>
+			<Box display={'flex'} alignItems={'center'} justifyContent={'end'}>
+				<Box
+					display={'flex'}
+					alignItems={'center'}
+					justifyContent={'center'}
+					cursor={'pointer'}
+					onClick={() => toggleLessTasks()}
+				>
+					<ArrowLeftIcon />
+				</Box>
+				<Text>{tasksPage + 1}</Text>
+				<Box
+					display={'flex'}
+					alignItems={'center'}
+					justifyContent={'center'}
+					cursor={'pointer'}
+					onClick={() => toggleMoreTasks()}
+				>
+					<ArrowRightIcon />
+				</Box>
+			</Box>
 		</Box>
 	);
 }

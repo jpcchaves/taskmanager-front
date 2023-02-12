@@ -1,12 +1,5 @@
 import { AddIcon, ArrowUpIcon } from '@chakra-ui/icons';
-import {
-	Box,
-	Button,
-	Container,
-	Flex,
-	Heading,
-	Tooltip,
-} from '@chakra-ui/react';
+import { Box, Button, Container, Heading, Tooltip } from '@chakra-ui/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { TasksTable } from '../../components/TasksTable';
 import { TaskI } from '../../types/taskI';
@@ -20,8 +13,6 @@ interface TaskListViewI {
 	data: Array<TaskI>;
 	columns: ColumnDef<TaskI, any>[];
 	handleNavigate: (path: string) => void;
-	tasksAmount: number;
-	requireMoreTasks: () => void;
 	tasksLoading: boolean;
 	deleteLoading: boolean;
 	isOpen: boolean;
@@ -32,14 +23,15 @@ interface TaskListViewI {
 	isRefetching: boolean;
 	isVisible: boolean;
 	scrollToTop: () => void;
+	toggleMoreTasks: () => void;
+	toggleLessTasks: () => void;
+	tasksPage: number;
 }
 
 const TaskListView = ({
 	data,
 	columns,
 	handleNavigate,
-	tasksAmount,
-	requireMoreTasks,
 	tasksLoading,
 	deleteLoading,
 	isOpen,
@@ -50,6 +42,9 @@ const TaskListView = ({
 	isRefetching,
 	isVisible,
 	scrollToTop,
+	toggleMoreTasks,
+	toggleLessTasks,
+	tasksPage,
 }: TaskListViewI) => {
 	let count = 0;
 	data?.map((t) => (t.concluded !== true ? count++ : null));
@@ -85,17 +80,13 @@ const TaskListView = ({
 								</Heading>
 							</Box>
 						</Container>
-						<TasksTable columns={columns} data={data} />
-						<Flex pt='4' justifyContent={'center'}>
-							<Button
-								onClick={() => requireMoreTasks()}
-								colorScheme='blue'
-								isLoading={isRefetching}
-								mt='8'
-							>
-								Carregar mais tasks
-							</Button>
-						</Flex>
+						<TasksTable
+							columns={columns}
+							data={data}
+							toggleMoreTasks={toggleMoreTasks}
+							toggleLessTasks={toggleLessTasks}
+							tasksPage={tasksPage}
+						/>
 					</Container>
 				)}
 			</Container>
