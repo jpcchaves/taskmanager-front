@@ -72,8 +72,8 @@ const TaskList = () => {
 	};
 
 	const toggleMoreTasks = () => {
-		if (tasksPage > totalPages!) {
-			return setTasksPage((prevState) => prevState);
+		if (tasksPage + 1 >= totalPages) {
+			return;
 		} else {
 			setTasksPage((prevState) => prevState + 1);
 		}
@@ -81,7 +81,7 @@ const TaskList = () => {
 
 	const toggleLessTasks = () => {
 		if (tasksPage - 1 < 0) {
-			return setTasksPage(0);
+			return;
 		} else {
 			setTasksPage((prevState) => prevState - 1);
 		}

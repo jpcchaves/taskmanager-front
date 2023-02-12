@@ -132,7 +132,7 @@ export function TasksTable<Data extends object>({
 				</Text>
 				<Tooltip
 					label={
-						tasksPage >= totalPages ? 'Você já está na última página!' : ''
+						tasksPage + 1 >= totalPages ? 'Você já está na última página!' : ''
 					}
 					hasArrow
 				>
@@ -140,7 +140,7 @@ export function TasksTable<Data extends object>({
 						display={'flex'}
 						alignItems={'center'}
 						justifyContent={'center'}
-						cursor={tasksPage >= totalPages ? 'not-allowed' : 'pointer'}
+						cursor={tasksPage + 1 >= totalPages ? 'not-allowed' : 'pointer'}
 						onClick={() => toggleMoreTasks()}
 					>
 						<Text>Próxima</Text>
