@@ -128,7 +128,7 @@ export function TasksTable<Data extends object>({
 					</Box>
 				</Tooltip>
 				<Text textDecoration={'underline'} fontWeight={'bold'}>
-					{tasksPage + 1}
+					{tasksPage + 1} de {totalPages}
 				</Text>
 				<Tooltip
 					label={
