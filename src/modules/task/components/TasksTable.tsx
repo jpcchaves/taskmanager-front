@@ -32,6 +32,7 @@ export type DataTableProps<Data extends object> = {
 	toggleMoreTasks: () => void;
 	toggleLessTasks: () => void;
 	tasksPage: number;
+	totalPages: number;
 };
 
 export function TasksTable<Data extends object>({
@@ -40,6 +41,7 @@ export function TasksTable<Data extends object>({
 	toggleMoreTasks,
 	toggleLessTasks,
 	tasksPage,
+	totalPages,
 }: DataTableProps<Data>) {
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const table = useReactTable({
@@ -112,6 +114,7 @@ export function TasksTable<Data extends object>({
 			>
 				<Tooltip
 					label={tasksPage <= 0 ? 'Você já está na primeira página!' : ''}
+					hasArrow
 				>
 					<Box
 						display={'flex'}
@@ -127,16 +130,23 @@ export function TasksTable<Data extends object>({
 				<Text textDecoration={'underline'} fontWeight={'bold'}>
 					{tasksPage + 1}
 				</Text>
-				<Box
-					display={'flex'}
-					alignItems={'center'}
-					justifyContent={'center'}
-					cursor={'pointer'}
-					onClick={() => toggleMoreTasks()}
+				<Tooltip
+					label={
+						tasksPage >= totalPages ? 'Você já está na última página!' : ''
+					}
+					hasArrow
 				>
-					<Text>Próxima</Text>
-					<ArrowRightIcon boxSize={'3'} ml={'1'} />
-				</Box>
+					<Box
+						display={'flex'}
+						alignItems={'center'}
+						justifyContent={'center'}
+						cursor={tasksPage >= totalPages ? 'not-allowed' : 'pointer'}
+						onClick={() => toggleMoreTasks()}
+					>
+						<Text>Próxima</Text>
+						<ArrowRightIcon boxSize={'3'} ml={'1'} />
+					</Box>
+				</Tooltip>
 			</Box>
 		</Box>
 	);

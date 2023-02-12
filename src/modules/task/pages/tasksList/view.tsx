@@ -26,6 +26,7 @@ interface TaskListViewI {
 	toggleMoreTasks: () => void;
 	toggleLessTasks: () => void;
 	tasksPage: number;
+	totalPages: number;
 }
 
 const TaskListView = ({
@@ -45,6 +46,7 @@ const TaskListView = ({
 	toggleMoreTasks,
 	toggleLessTasks,
 	tasksPage,
+	totalPages,
 }: TaskListViewI) => {
 	let count = 0;
 	data?.map((t) => (t.concluded !== true ? count++ : null));
@@ -86,6 +88,7 @@ const TaskListView = ({
 							toggleMoreTasks={toggleMoreTasks}
 							toggleLessTasks={toggleLessTasks}
 							tasksPage={tasksPage}
+							totalPages={totalPages}
 						/>
 					</Container>
 				)}

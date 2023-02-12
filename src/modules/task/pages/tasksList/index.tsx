@@ -233,6 +233,7 @@ const TaskList = () => {
 				toggleMoreTasks={toggleMoreTasks}
 				toggleLessTasks={toggleLessTasks}
 				tasksPage={tasksPage}
+				totalPages={totalPages}
 			/>
 		</>
 	);
