@@ -1,5 +1,21 @@
-import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import { Box, chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import {
+	ArrowLeftIcon,
+	ArrowRightIcon,
+	TriangleDownIcon,
+	TriangleUpIcon,
+} from '@chakra-ui/icons';
+import {
+	Box,
+	chakra,
+	Table,
+	Tbody,
+	Td,
+	Text,
+	Th,
+	Thead,
+	Tooltip,
+	Tr,
+} from '@chakra-ui/react';
 import {
 	ColumnDef,
 	flexRender,
@@ -13,11 +29,19 @@ import * as React from 'react';
 export type DataTableProps<Data extends object> = {
 	data: Data[];
 	columns: ColumnDef<Data, any>[];
+	toggleMoreTasks: () => void;
+	toggleLessTasks: () => void;
+	tasksPage: number;
+	totalPages: number;
 };
 
 export function TasksTable<Data extends object>({
 	data,
 	columns,
+	toggleMoreTasks,
+	toggleLessTasks,
+	tasksPage,
+	totalPages,
 }: DataTableProps<Data>) {
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const table = useReactTable({
@@ -81,6 +105,49 @@ export function TasksTable<Data extends object>({
 						))}
 				</Tbody>
 			</Table>
+			<Box
+				display={'flex'}
+				alignItems={'center'}
+				justifyContent={'end'}
+				gap={'2'}
+				pt={'2'}
+			>
+				<Tooltip
+					label={tasksPage <= 0 ? 'Você já está na primeira página!' : ''}
+					hasArrow
+				>
+					<Box
+						display={'flex'}
+						alignItems={'center'}
+						justifyContent={'center'}
+						cursor={tasksPage <= 0 ? 'not-allowed' : 'pointer'}
+						onClick={() => toggleLessTasks()}
+					>
+						<ArrowLeftIcon boxSize={'3'} mr={'1'} />
+						<Text>Anterior</Text>
+					</Box>
+				</Tooltip>
+				<Text textDecoration={'underline'} fontWeight={'bold'}>
+					{tasksPage + 1}
+				</Text>
+				<Tooltip
+					label={
+						tasksPage + 1 >= totalPages ? 'Você já está na última página!' : ''
+					}
+					hasArrow
+				>
+					<Box
+						display={'flex'}
+						alignItems={'center'}
+						justifyContent={'center'}
+						cursor={tasksPage + 1 >= totalPages ? 'not-allowed' : 'pointer'}
+						onClick={() => toggleMoreTasks()}
+					>
+						<Text>Próxima</Text>
+						<ArrowRightIcon boxSize={'3'} ml={'1'} />
+					</Box>
+				</Tooltip>
+			</Box>
 		</Box>
 	);
 }

@@ -30,8 +30,9 @@ const TaskList = () => {
 	const [selectedId, setSelectedId] = useState<number | null>(null);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { handleNavigate } = useHandleNavigate();
-	const [tasksAmount, setTaksAmount] = useState(10);
 	const [isVisible, setIsVisible] = useState(false);
+	const [tasksPage, setTasksPage] = useState(0);
+	const [totalPages, setTotalPages] = useState(0);
 
 	const scrollToTop = () => {
 		window.scrollTo({
@@ -60,23 +61,38 @@ const TaskList = () => {
 	const { mutate: toggleConcludedMutation, isLoading: toggleConcludedLoading } =
 		useToggleConcludedMutation();
 
-	const requireMoreTasks = () => {
-		setTaksAmount((prevState) => prevState + 10);
-	};
-
 	const getTasks = async () => {
 		const { data } = await api.get(
-			`/v1/task?size=${tasksAmount}&orderBy=createdAt&direction=DESC`
+			`/v1/task?page=${tasksPage}&orderBy=createdAt&direction=DESC&size=15`
 		);
+
+		setTotalPages(data.totalPages);
+
 		return data.content;
 	};
+
+	const toggleMoreTasks = () => {
+		if (tasksPage + 1 >= totalPages) {
+			return;
+		} else {
+			setTasksPage((prevState) => prevState + 1);
+		}
+	};
+
+	const toggleLessTasks = () => {
+		if (tasksPage - 1 < 0) {
+			return;
+		} else {
+			setTasksPage((prevState) => prevState - 1);
+		}
+	};
+
 	const {
 		data,
 		isLoading: tasksLoading,
 		isRefetching,
-	} = useQuery(['tasks', tasksAmount], getTasks, {
+	} = useQuery(['tasks', tasksPage], getTasks, {
 		refetchOnWindowFocus: false,
-		keepPreviousData: true,
 	});
 
 	const columnHelper = createColumnHelper<TaskI>();
@@ -203,8 +219,6 @@ const TaskList = () => {
 				data={data}
 				columns={columns}
 				handleNavigate={handleNavigate}
-				tasksAmount={tasksAmount}
-				requireMoreTasks={requireMoreTasks}
 				tasksLoading={tasksLoading}
 				deleteLoading={deleteLoading}
 				isOpen={isOpen}
@@ -215,6 +229,10 @@ const TaskList = () => {
 				isRefetching={isRefetching}
 				isVisible={isVisible}
 				scrollToTop={scrollToTop}
+				toggleMoreTasks={toggleMoreTasks}
+				toggleLessTasks={toggleLessTasks}
+				tasksPage={tasksPage}
+				totalPages={totalPages}
 			/>
 		</>
 	);
