@@ -13,6 +13,7 @@ import {
 	Text,
 	Th,
 	Thead,
+	Tooltip,
 	Tr,
 } from '@chakra-ui/react';
 import {
@@ -102,17 +103,30 @@ export function TasksTable<Data extends object>({
 						))}
 				</Tbody>
 			</Table>
-			<Box display={'flex'} alignItems={'center'} justifyContent={'end'}>
-				<Box
-					display={'flex'}
-					alignItems={'center'}
-					justifyContent={'center'}
-					cursor={'pointer'}
-					onClick={() => toggleLessTasks()}
+			<Box
+				display={'flex'}
+				alignItems={'center'}
+				justifyContent={'end'}
+				gap={'2'}
+				pt={'2'}
+			>
+				<Tooltip
+					label={tasksPage <= 0 ? 'Você já está na primeira página!' : ''}
 				>
-					<ArrowLeftIcon />
-				</Box>
-				<Text>{tasksPage + 1}</Text>
+					<Box
+						display={'flex'}
+						alignItems={'center'}
+						justifyContent={'center'}
+						cursor={tasksPage <= 0 ? 'not-allowed' : 'pointer'}
+						onClick={() => toggleLessTasks()}
+					>
+						<ArrowLeftIcon boxSize={'3'} mr={'1'} />
+						<Text>Anterior</Text>
+					</Box>
+				</Tooltip>
+				<Text textDecoration={'underline'} fontWeight={'bold'}>
+					{tasksPage + 1}
+				</Text>
 				<Box
 					display={'flex'}
 					alignItems={'center'}
@@ -120,7 +134,8 @@ export function TasksTable<Data extends object>({
 					cursor={'pointer'}
 					onClick={() => toggleMoreTasks()}
 				>
-					<ArrowRightIcon />
+					<Text>Próxima</Text>
+					<ArrowRightIcon boxSize={'3'} ml={'1'} />
 				</Box>
 			</Box>
 		</Box>
