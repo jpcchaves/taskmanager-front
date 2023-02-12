@@ -93,7 +93,6 @@ const TaskList = () => {
 		isRefetching,
 	} = useQuery(['tasks', tasksPage], getTasks, {
 		refetchOnWindowFocus: false,
-		keepPreviousData: true,
 	});
 
 	const columnHelper = createColumnHelper<TaskI>();
