@@ -24,6 +24,7 @@ import useDeleteTaskMutation from '../../../../hooks/useDeleteTaskMutation';
 import useHandleNavigate from '../../../../hooks/useHandleNavigate';
 import useToggleConcludedMutation from '../../../../hooks/useToggleConcludedMutation';
 import { toggleMoreTasks } from '../../utils/toggleMoreTasks';
+import { toggleLessTasks } from '../../utils/toggleLessTasks';
 
 export enum PageDirection {
 	previous = 'previous',
@@ -40,8 +41,12 @@ const TaskList = () => {
 	const [tasksPage, setTasksPage] = useState(0);
 	const [totalPages, setTotalPages] = useState(0);
 
-	const handleTasksPageStateChange = () => {
+	const handleIncreaseTaskPage = () => {
 		setTasksPage((prevState) => prevState + 1);
+	};
+
+	const handleDecreaseTaskPage = () => {
+		setTasksPage((prevState) => prevState - 1);
 	};
 
 	const scrollToTop = () => {
@@ -81,19 +86,11 @@ const TaskList = () => {
 		return data.content;
 	};
 
-	const toggleLessTasks = () => {
-		if (tasksPage - 1 < 0) {
-			return;
-		} else {
-			setTasksPage((prevState) => prevState - 1);
-		}
-	};
-
 	const handlePageChange = (direction: PageDirection) => {
 		if (direction === PageDirection.next) {
-			toggleMoreTasks({ handleTasksPageStateChange, tasksPage, totalPages });
+			toggleMoreTasks({ handleIncreaseTaskPage, tasksPage, totalPages });
 		} else if (direction === PageDirection.previous) {
-			toggleLessTasks();
+			toggleLessTasks({ handleDecreaseTaskPage, tasksPage });
 		} else {
 			return;
 		}
