@@ -3,7 +3,9 @@ import {
 	ArrowRightIcon,
 	TriangleDownIcon,
 	TriangleUpIcon,
+	Icon,
 } from '@chakra-ui/icons';
+import { BiArrowFromRight, BiArrowFromLeft } from 'react-icons/bi';
 import {
 	Box,
 	chakra,
@@ -111,6 +113,18 @@ export function TasksTable<Data extends object>({
 				gap={'2'}
 				pt={'2'}
 			>
+				<Tooltip label='Primeira página' hasArrow>
+					<Box
+						display={'flex'}
+						alignItems={'center'}
+						justifyContent={'center'}
+						cursor={'pointer'}
+						transition={'0.5s'}
+						_hover={{ color: 'blue.300' }}
+					>
+						<Icon boxSize={'5'} as={BiArrowFromRight} />
+					</Box>
+				</Tooltip>
 				<Tooltip
 					label={tasksPage <= 0 ? 'Você já está na primeira página!' : ''}
 					hasArrow
@@ -121,6 +135,8 @@ export function TasksTable<Data extends object>({
 						justifyContent={'center'}
 						cursor={tasksPage <= 0 ? 'not-allowed' : 'pointer'}
 						onClick={() => handlePageChange(PageDirection.previous)}
+						transition={'0.5s'}
+						_hover={{ color: 'blue.300' }}
 					>
 						<ArrowLeftIcon boxSize={'3'} mr={'1'} />
 						<Text>Anterior</Text>
@@ -141,9 +157,23 @@ export function TasksTable<Data extends object>({
 						justifyContent={'center'}
 						cursor={tasksPage + 1 >= totalPages ? 'not-allowed' : 'pointer'}
 						onClick={() => handlePageChange(PageDirection.next)}
+						transition={'0.5s'}
+						_hover={{ color: 'blue.300' }}
 					>
 						<Text>Próxima</Text>
 						<ArrowRightIcon boxSize={'3'} ml={'1'} />
+					</Box>
+				</Tooltip>
+				<Tooltip label='Última página' hasArrow>
+					<Box
+						display={'flex'}
+						alignItems={'center'}
+						justifyContent={'center'}
+						cursor={'pointer'}
+						transition={'0.5s'}
+						_hover={{ color: 'blue.300' }}
+					>
+						<Icon boxSize={'5'} as={BiArrowFromLeft} />
 					</Box>
 				</Tooltip>
 			</Box>
