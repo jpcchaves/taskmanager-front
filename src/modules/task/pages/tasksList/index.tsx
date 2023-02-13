@@ -23,6 +23,7 @@ import { useEffect, useState } from 'react';
 import useDeleteTaskMutation from '../../../../hooks/useDeleteTaskMutation';
 import useHandleNavigate from '../../../../hooks/useHandleNavigate';
 import useToggleConcludedMutation from '../../../../hooks/useToggleConcludedMutation';
+import { toggleMoreTasks } from '../../utils/toggleMoreTasks';
 
 export enum PageDirection {
 	previous = 'previous',
@@ -38,6 +39,10 @@ const TaskList = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [tasksPage, setTasksPage] = useState(0);
 	const [totalPages, setTotalPages] = useState(0);
+
+	const handleTasksPageStateChange = () => {
+		setTasksPage((prevState) => prevState + 1);
+	};
 
 	const scrollToTop = () => {
 		window.scrollTo({
@@ -76,14 +81,6 @@ const TaskList = () => {
 		return data.content;
 	};
 
-	const toggleMoreTasks = () => {
-		if (tasksPage + 1 >= totalPages) {
-			return;
-		} else {
-			setTasksPage((prevState) => prevState + 1);
-		}
-	};
-
 	const toggleLessTasks = () => {
 		if (tasksPage - 1 < 0) {
 			return;
@@ -94,7 +91,7 @@ const TaskList = () => {
 
 	const handlePageChange = (direction: PageDirection) => {
 		if (direction === PageDirection.next) {
-			toggleMoreTasks();
+			toggleMoreTasks({ handleTasksPageStateChange, tasksPage, totalPages });
 		} else if (direction === PageDirection.previous) {
 			toggleLessTasks();
 		} else {
