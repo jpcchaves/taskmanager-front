@@ -25,12 +25,12 @@ import {
 	useReactTable,
 } from '@tanstack/react-table';
 import * as React from 'react';
+import { PageDirection } from '../pages/tasksList';
 
 export type DataTableProps<Data extends object> = {
 	data: Data[];
 	columns: ColumnDef<Data, any>[];
-	toggleMoreTasks: () => void;
-	toggleLessTasks: () => void;
+	handlePageChange: (direction: PageDirection) => void;
 	tasksPage: number;
 	totalPages: number;
 };
@@ -38,10 +38,9 @@ export type DataTableProps<Data extends object> = {
 export function TasksTable<Data extends object>({
 	data,
 	columns,
-	toggleMoreTasks,
-	toggleLessTasks,
 	tasksPage,
 	totalPages,
+	handlePageChange,
 }: DataTableProps<Data>) {
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const table = useReactTable({
@@ -121,7 +120,7 @@ export function TasksTable<Data extends object>({
 						alignItems={'center'}
 						justifyContent={'center'}
 						cursor={tasksPage <= 0 ? 'not-allowed' : 'pointer'}
-						onClick={() => toggleLessTasks()}
+						onClick={() => handlePageChange(PageDirection.previous)}
 					>
 						<ArrowLeftIcon boxSize={'3'} mr={'1'} />
 						<Text>Anterior</Text>
@@ -141,7 +140,7 @@ export function TasksTable<Data extends object>({
 						alignItems={'center'}
 						justifyContent={'center'}
 						cursor={tasksPage + 1 >= totalPages ? 'not-allowed' : 'pointer'}
-						onClick={() => toggleMoreTasks()}
+						onClick={() => handlePageChange(PageDirection.next)}
 					>
 						<Text>Próxima</Text>
 						<ArrowRightIcon boxSize={'3'} ml={'1'} />

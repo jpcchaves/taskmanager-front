@@ -24,6 +24,11 @@ import useDeleteTaskMutation from '../../../../hooks/useDeleteTaskMutation';
 import useHandleNavigate from '../../../../hooks/useHandleNavigate';
 import useToggleConcludedMutation from '../../../../hooks/useToggleConcludedMutation';
 
+export enum PageDirection {
+	previous = 'previous',
+	next = 'next',
+}
+
 const TaskList = () => {
 	const client = useQueryClient();
 	const toast = useToast();
@@ -84,6 +89,16 @@ const TaskList = () => {
 			return;
 		} else {
 			setTasksPage((prevState) => prevState - 1);
+		}
+	};
+
+	const handlePageChange = (direction: PageDirection) => {
+		if (direction === PageDirection.next) {
+			toggleMoreTasks();
+		} else if (direction === PageDirection.previous) {
+			toggleLessTasks();
+		} else {
+			return;
 		}
 	};
 
@@ -229,8 +244,7 @@ const TaskList = () => {
 				isRefetching={isRefetching}
 				isVisible={isVisible}
 				scrollToTop={scrollToTop}
-				toggleMoreTasks={toggleMoreTasks}
-				toggleLessTasks={toggleLessTasks}
+				handlePageChange={handlePageChange}
 				tasksPage={tasksPage}
 				totalPages={totalPages}
 			/>

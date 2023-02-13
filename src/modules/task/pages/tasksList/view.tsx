@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import ScreenLoader from '../../../../common/screenLoader';
 import DeleteModal from '../../components/DeleteModal';
 import ManWithTasklistAnimation from '../../components/ManWithTasklistAnimation';
+import { PageDirection } from '.';
 
 interface TaskListViewI {
 	data: Array<TaskI>;
@@ -23,8 +24,7 @@ interface TaskListViewI {
 	isRefetching: boolean;
 	isVisible: boolean;
 	scrollToTop: () => void;
-	toggleMoreTasks: () => void;
-	toggleLessTasks: () => void;
+	handlePageChange: (direction: PageDirection) => void;
 	tasksPage: number;
 	totalPages: number;
 }
@@ -43,8 +43,7 @@ const TaskListView = ({
 	isRefetching,
 	isVisible,
 	scrollToTop,
-	toggleMoreTasks,
-	toggleLessTasks,
+	handlePageChange,
 	tasksPage,
 	totalPages,
 }: TaskListViewI) => {
@@ -85,8 +84,7 @@ const TaskListView = ({
 						<TasksTable
 							columns={columns}
 							data={data}
-							toggleMoreTasks={toggleMoreTasks}
-							toggleLessTasks={toggleLessTasks}
+							handlePageChange={handlePageChange}
 							tasksPage={tasksPage}
 							totalPages={totalPages}
 						/>
