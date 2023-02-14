@@ -1,11 +1,8 @@
 import {
 	ArrowLeftIcon,
-	ArrowRightIcon,
-	TriangleDownIcon,
-	TriangleUpIcon,
-	Icon,
+	ArrowRightIcon, Icon, TriangleDownIcon,
+	TriangleUpIcon
 } from '@chakra-ui/icons';
-import { BiArrowFromRight, BiArrowFromLeft } from 'react-icons/bi';
 import {
 	Box,
 	chakra,
@@ -16,7 +13,7 @@ import {
 	Th,
 	Thead,
 	Tooltip,
-	Tr,
+	Tr
 } from '@chakra-ui/react';
 import {
 	ColumnDef,
@@ -24,10 +21,11 @@ import {
 	getCoreRowModel,
 	getSortedRowModel,
 	SortingState,
-	useReactTable,
+	useReactTable
 } from '@tanstack/react-table';
 import * as React from 'react';
-import { PageDirection } from '../pages/tasksList';
+import { BiArrowFromLeft, BiArrowFromRight } from 'react-icons/bi';
+import { PageDirection } from '../utils/enum/PageDirection';
 
 export type DataTableProps<Data extends object> = {
 	data: Data[];
@@ -111,7 +109,7 @@ export function TasksTable<Data extends object>({
 				alignItems={'center'}
 				justifyContent={'end'}
 				gap={'2'}
-				pt={'2'}
+				mt={'3'}
 			>
 				<Tooltip label='Primeira página' hasArrow>
 					<Box
@@ -121,6 +119,7 @@ export function TasksTable<Data extends object>({
 						cursor={'pointer'}
 						transition={'0.5s'}
 						_hover={{ color: 'blue.300' }}
+						onClick={() => handlePageChange(PageDirection.first)}
 					>
 						<Icon boxSize={'5'} as={BiArrowFromRight} />
 					</Box>
@@ -172,6 +171,7 @@ export function TasksTable<Data extends object>({
 						cursor={'pointer'}
 						transition={'0.5s'}
 						_hover={{ color: 'blue.300' }}
+						onClick={() => handlePageChange(PageDirection.last)}
 					>
 						<Icon boxSize={'5'} as={BiArrowFromLeft} />
 					</Box>

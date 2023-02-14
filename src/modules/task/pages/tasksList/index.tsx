@@ -23,13 +23,12 @@ import { useEffect, useState } from 'react';
 import useDeleteTaskMutation from '../../../../hooks/useDeleteTaskMutation';
 import useHandleNavigate from '../../../../hooks/useHandleNavigate';
 import useToggleConcludedMutation from '../../../../hooks/useToggleConcludedMutation';
-import { toggleMoreTasks } from '../../utils/toggleMoreTasks';
-import { toggleLessTasks } from '../../utils/toggleLessTasks';
+import { toggleLessTasks } from '../../utils/fn/toggleLessTasks';
+import { toggleMoreTasks } from '../../utils/fn/toggleMoreTasks';
 
-export enum PageDirection {
-	previous = 'previous',
-	next = 'next',
-}
+import { PageDirection } from '../../utils/enum/PageDirection';
+import { toggleFirstPage } from '../../utils/fn/toggleFirstPage';
+import { toggleLastPage } from '../../utils/fn/toggleLastPage';
 
 const TaskList = () => {
 	const client = useQueryClient();
@@ -47,6 +46,14 @@ const TaskList = () => {
 
 	const handleDecreaseTaskPage = () => {
 		setTasksPage((prevState) => prevState - 1);
+	};
+
+	const handleFirstPage = () => {
+		setTasksPage(0);
+	};
+
+	const handleLastPage = () => {
+		setTasksPage(totalPages - 1);
 	};
 
 	const scrollToTop = () => {
@@ -91,6 +98,10 @@ const TaskList = () => {
 			toggleMoreTasks({ handleIncreaseTaskPage, tasksPage, totalPages });
 		} else if (direction === PageDirection.previous) {
 			toggleLessTasks({ handleDecreaseTaskPage, tasksPage });
+		} else if (direction === PageDirection.first) {
+			toggleFirstPage({ handleFirstPage });
+		} else if (direction === PageDirection.last) {
+			toggleLastPage({ handleLastPage });
 		} else {
 			return;
 		}
