@@ -1,18 +1,18 @@
 import { AddIcon, ArrowUpIcon } from '@chakra-ui/icons';
 import {
+	Accordion,
+	AccordionButton,
+	AccordionItem,
+	AccordionPanel,
 	Box,
 	Button,
 	Card,
 	CardBody,
-	CardHeader,
 	Container,
-	Heading,
-	SimpleGrid,
 	Stat,
 	StatHelpText,
 	StatLabel,
 	StatNumber,
-	Text,
 	Tooltip,
 } from '@chakra-ui/react';
 import { ColumnDef } from '@tanstack/react-table';
@@ -90,26 +90,26 @@ const TaskListView = ({
 					<ManWithTasklistAnimation />
 				) : (
 					<Container maxW='full'>
-						<SimpleGrid
-							spacing={4}
-							templateColumns='repeat(auto-fill, minmax(300px, 1fr))'
-							py={'4'}
-						>
-							<Card>
-								<CardHeader mb={'-6'}>
-									<Heading size='md'> Resumo das Tasks: </Heading>
-								</CardHeader>
-								<CardBody>
-									<Stat>
-										<StatLabel>Tasks não concluídas</StatLabel>
-										<StatNumber>
-											<CountUp end={count} duration={2} />
-										</StatNumber>
-										<StatHelpText>Pagina: {tasksPage + 1}</StatHelpText>
-									</Stat>
-								</CardBody>
-							</Card>
-						</SimpleGrid>
+						<Accordion defaultIndex={[0]} allowToggle py={'5'}>
+							<AccordionItem>
+								<AccordionButton>
+									Clique para ver o resumo das tasks não concluídas
+								</AccordionButton>
+								<AccordionPanel>
+									<Card>
+										<CardBody>
+											<Stat>
+												<StatLabel>Tasks não concluídas</StatLabel>
+												<StatNumber>
+													<CountUp end={count} duration={2} />
+												</StatNumber>
+												<StatHelpText>Pagina: {tasksPage + 1}</StatHelpText>
+											</Stat>
+										</CardBody>
+									</Card>
+								</AccordionPanel>
+							</AccordionItem>
+						</Accordion>
 
 						<TasksTable
 							columns={columns}
