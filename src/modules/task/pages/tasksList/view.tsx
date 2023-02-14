@@ -2,6 +2,7 @@ import { AddIcon, ArrowUpIcon } from '@chakra-ui/icons';
 import {
 	Accordion,
 	AccordionButton,
+	AccordionIcon,
 	AccordionItem,
 	AccordionPanel,
 	Box,
@@ -94,6 +95,7 @@ const TaskListView = ({
 							<AccordionItem>
 								<AccordionButton>
 									Clique para ver o resumo das tasks não concluídas
+									<AccordionIcon />
 								</AccordionButton>
 								<AccordionPanel>
 									<Card>
