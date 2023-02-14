@@ -1,7 +1,9 @@
 import {
 	ArrowLeftIcon,
-	ArrowRightIcon, Icon, TriangleDownIcon,
-	TriangleUpIcon
+	ArrowRightIcon,
+	Icon,
+	TriangleDownIcon,
+	TriangleUpIcon,
 } from '@chakra-ui/icons';
 import {
 	Box,
@@ -13,7 +15,7 @@ import {
 	Th,
 	Thead,
 	Tooltip,
-	Tr
+	Tr,
 } from '@chakra-ui/react';
 import {
 	ColumnDef,
@@ -21,7 +23,7 @@ import {
 	getCoreRowModel,
 	getSortedRowModel,
 	SortingState,
-	useReactTable
+	useReactTable,
 } from '@tanstack/react-table';
 import * as React from 'react';
 import { BiArrowFromLeft, BiArrowFromRight } from 'react-icons/bi';
@@ -111,14 +113,21 @@ export function TasksTable<Data extends object>({
 				gap={'2'}
 				mt={'3'}
 			>
-				<Tooltip label='Primeira página' hasArrow>
+				<Tooltip
+					hasArrow
+					label={
+						tasksPage <= 0
+							? 'Você já está na primeira página!'
+							: 'Ir para primeira página'
+					}
+				>
 					<Box
 						display={'flex'}
 						alignItems={'center'}
 						justifyContent={'center'}
-						cursor={'pointer'}
 						transition={'0.5s'}
 						_hover={{ color: 'blue.300' }}
+						cursor={tasksPage <= 0 ? 'not-allowed' : 'pointer'}
 						onClick={() => handlePageChange(PageDirection.first)}
 					>
 						<Icon boxSize={'5'} as={BiArrowFromRight} />
@@ -163,12 +172,19 @@ export function TasksTable<Data extends object>({
 						<ArrowRightIcon boxSize={'3'} ml={'1'} />
 					</Box>
 				</Tooltip>
-				<Tooltip label='Última página' hasArrow>
+				<Tooltip
+					label={
+						tasksPage + 1 >= totalPages
+							? 'Você já está na última página!'
+							: 'Ir para a última página'
+					}
+					hasArrow
+				>
 					<Box
 						display={'flex'}
 						alignItems={'center'}
 						justifyContent={'center'}
-						cursor={'pointer'}
+						cursor={tasksPage + 1 >= totalPages ? 'not-allowed' : 'pointer'}
 						transition={'0.5s'}
 						_hover={{ color: 'blue.300' }}
 						onClick={() => handlePageChange(PageDirection.last)}
