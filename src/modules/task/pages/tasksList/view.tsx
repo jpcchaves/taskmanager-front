@@ -1,14 +1,30 @@
 import { AddIcon, ArrowUpIcon } from '@chakra-ui/icons';
-import { Box, Button, Container, Heading, Tooltip } from '@chakra-ui/react';
+import {
+	Box,
+	Button,
+	Card,
+	CardBody,
+	CardHeader,
+	Container,
+	Heading,
+	SimpleGrid,
+	Stat,
+	StatHelpText,
+	StatLabel,
+	StatNumber,
+	Text,
+	Tooltip,
+} from '@chakra-ui/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { TasksTable } from '../../components/TasksTable';
 import { TaskI } from '../../types/taskI';
 
 import { motion } from 'framer-motion';
+import CountUp from 'react-countup';
 import ScreenLoader from '../../../../common/screenLoader';
 import DeleteModal from '../../components/DeleteModal';
 import ManWithTasklistAnimation from '../../components/ManWithTasklistAnimation';
-import { PageDirection } from '.';
+import { PageDirection } from '../../utils/enum/PageDirection';
 
 interface TaskListViewI {
 	data: Array<TaskI>;
@@ -74,13 +90,27 @@ const TaskListView = ({
 					<ManWithTasklistAnimation />
 				) : (
 					<Container maxW='full'>
-						<Container pt='6' pb='2'>
-							<Box>
-								<Heading size='md' textAlign={'center'}>
-									Atualmente você possui {count} tasks não concluídas
-								</Heading>
-							</Box>
-						</Container>
+						<SimpleGrid
+							spacing={4}
+							templateColumns='repeat(auto-fill, minmax(300px, 1fr))'
+							py={'4'}
+						>
+							<Card>
+								<CardHeader mb={'-6'}>
+									<Heading size='md'> Resumo das Tasks: </Heading>
+								</CardHeader>
+								<CardBody>
+									<Stat>
+										<StatLabel>Tasks não concluídas</StatLabel>
+										<StatNumber>
+											<CountUp end={count} duration={2} />
+										</StatNumber>
+										<StatHelpText>Pagina: {tasksPage + 1}</StatHelpText>
+									</Stat>
+								</CardBody>
+							</Card>
+						</SimpleGrid>
+
 						<TasksTable
 							columns={columns}
 							data={data}
