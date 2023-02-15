@@ -3,7 +3,7 @@ import { api } from './useApi';
 
 const useDeleteTaskMutation = () => {
 	const deleteTask = async (id: number) => {
-		return await api.delete(`/v1/task/${id}`);
+		return await api.delete(`/v1/tasks/${id}`);
 	};
 
 	const deleteTaskMutation = useMutation({

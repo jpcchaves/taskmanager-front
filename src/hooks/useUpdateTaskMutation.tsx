@@ -4,7 +4,7 @@ import { api } from './useApi';
 
 const useUpdateTaskMutation = () => {
 	const updateTask = async ({ id, formPayload }: UpdateTaskPayloadI) => {
-		return await api.put(`/v1/task/${id}`, formPayload);
+		return await api.put(`/v1/tasks/${id}`, formPayload);
 	};
 
 	const updateTaskMutation = useMutation({

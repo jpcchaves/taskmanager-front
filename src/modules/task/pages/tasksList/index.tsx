@@ -85,7 +85,7 @@ const TaskList = () => {
 
 	const getTasks = async () => {
 		const { data } = await api.get(
-			`/v1/task?page=${tasksPage}&orderBy=createdAt&direction=DESC&size=15`
+			`/v1/tasks?page=${tasksPage}&orderBy=createdAt&direction=DESC&size=15`
 		);
 
 		setTotalPages(data.totalPages);

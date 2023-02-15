@@ -3,7 +3,7 @@ import { api } from './useApi';
 
 const useGetTaskByIdMutation = () => {
 	const getTaskById = async (id: string | undefined) => {
-		const res = await api.get(`/v1/task/${id}`);
+		const res = await api.get(`/v1/tasks/${id}`);
 		return res.data;
 	};
 

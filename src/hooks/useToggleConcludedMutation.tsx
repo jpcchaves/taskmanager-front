@@ -8,7 +8,7 @@ const useToggleConcludedMutation = () => {
 			concluded,
 		};
 
-		return await api.patch(`/v1/task/${id}`, updatedConcluded);
+		return await api.patch(`/v1/tasks/${id}`, updatedConcluded);
 	};
 
 	const updateConcludedMutation = useMutation({
