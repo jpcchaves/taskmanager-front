@@ -5,6 +5,9 @@ import { api } from '../../../../hooks/useApi';
 import {
 	ButtonGroup,
 	Checkbox,
+	Input,
+	InputGroup,
+	InputRightElement,
 	Text,
 	Tooltip,
 	useDisclosure,
@@ -18,7 +21,7 @@ import 'moment-timezone';
 // Types
 import { TaskI } from '../../types/taskI';
 // Hooks
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
+import { DeleteIcon, EditIcon, Search2Icon } from '@chakra-ui/icons';
 import { useEffect, useState } from 'react';
 import useDeleteTaskMutation from '../../../../hooks/useDeleteTaskMutation';
 import useHandleNavigate from '../../../../hooks/useHandleNavigate';
@@ -39,6 +42,8 @@ const TaskList = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [tasksPage, setTasksPage] = useState(0);
 	const [totalPages, setTotalPages] = useState(0);
+	const [searchWord, setSearchWord] = useState('');
+	const [filteredTasks, setFilteredTasks] = useState<TaskI[]>([]);
 
 	const handleIncreaseTaskPage = () => {
 		setTasksPage((prevState) => prevState + 1);
@@ -233,10 +238,33 @@ const TaskList = () => {
 		},
 	];
 
+	const filterTasks = () => {
+		const filter = data.filter((task: TaskI) => {
+			if (searchWord.length) {
+				return task.task.toLowerCase().includes(searchWord.toLowerCase());
+			} else {
+				return;
+			}
+		});
+
+		setFilteredTasks(filter);
+	};
+
 	return (
 		<>
+			<InputGroup>
+				<Input
+					onChange={(e) => setSearchWord(e.target.value)}
+					value={searchWord}
+				/>
+				<InputRightElement
+					onClick={() => filterTasks()}
+					children={<Search2Icon cursor={'pointer'} />}
+				/>
+			</InputGroup>
 			<TaskListView
 				data={data}
+				filteredTasks={filteredTasks}
 				columns={columns}
 				handleNavigate={handleNavigate}
 				tasksLoading={tasksLoading}
@@ -246,7 +274,6 @@ const TaskList = () => {
 				handleDeleteTask={handleDeleteTask}
 				selectedId={selectedId}
 				toggleConcludedLoading={toggleConcludedLoading}
-				isRefetching={isRefetching}
 				isVisible={isVisible}
 				scrollToTop={scrollToTop}
 				handlePageChange={handlePageChange}

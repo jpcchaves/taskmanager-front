@@ -29,6 +29,7 @@ import { PageDirection } from '../../utils/enum/PageDirection';
 
 interface TaskListViewI {
 	data: Array<TaskI>;
+	filteredTasks: Array<TaskI>;
 	columns: ColumnDef<TaskI, any>[];
 	handleNavigate: (path: string) => void;
 	tasksLoading: boolean;
@@ -38,7 +39,6 @@ interface TaskListViewI {
 	handleDeleteTask: (id: number) => void;
 	selectedId: number | null;
 	toggleConcludedLoading: boolean;
-	isRefetching: boolean;
 	isVisible: boolean;
 	scrollToTop: () => void;
 	handlePageChange: (direction: PageDirection) => void;
@@ -48,6 +48,7 @@ interface TaskListViewI {
 
 const TaskListView = ({
 	data,
+	filteredTasks,
 	columns,
 	handleNavigate,
 	tasksLoading,
@@ -57,7 +58,6 @@ const TaskListView = ({
 	handleDeleteTask,
 	selectedId,
 	toggleConcludedLoading,
-	isRefetching,
 	isVisible,
 	scrollToTop,
 	handlePageChange,
@@ -115,7 +115,7 @@ const TaskListView = ({
 
 						<TasksTable
 							columns={columns}
-							data={data}
+							data={filteredTasks.length ? filteredTasks : data}
 							handlePageChange={handlePageChange}
 							tasksPage={tasksPage}
 							totalPages={totalPages}
