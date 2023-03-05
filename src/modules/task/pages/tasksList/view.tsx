@@ -1,32 +1,10 @@
-import { AddIcon, ArrowUpIcon, CloseIcon, Search2Icon } from '@chakra-ui/icons';
-import {
-	Accordion,
-	AccordionButton,
-	AccordionIcon,
-	AccordionItem,
-	AccordionPanel,
-	Box,
-	Button,
-	Card,
-	CardBody,
-	Container,
-	Grid,
-	GridItem,
-	Input,
-	InputGroup,
-	InputRightElement,
-	Stat,
-	StatHelpText,
-	StatLabel,
-	StatNumber,
-	Tooltip,
-} from '@chakra-ui/react';
+import { AddIcon, ArrowUpIcon } from '@chakra-ui/icons';
+import { Box, Button, Container, Tooltip } from '@chakra-ui/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { TasksTable } from '../../components/TasksTable';
 import { TaskI } from '../../types/taskI';
 
 import { motion } from 'framer-motion';
-import CountUp from 'react-countup';
 import ScreenLoader from '../../../../common/screenLoader';
 import DeleteModal from '../../components/DeleteModal';
 import ManWithTasklistAnimation from '../../components/ManWithTasklistAnimation';
@@ -34,17 +12,12 @@ import { PageDirection } from '../../utils/enum/PageDirection';
 
 interface TaskListViewI {
 	data: Array<TaskI>;
-	filteredTasks: Array<TaskI>;
 	columns: ColumnDef<TaskI, any>[];
 	handleNavigate: (path: string) => void;
 	tasksLoading: boolean;
 	deleteLoading: boolean;
 	isOpen: boolean;
-	handleCleanFilter: () => void;
 	onClose: () => void;
-	handleInputChange: (e: string) => void;
-	searchWord: string;
-	filterTasks: () => void;
 	handleDeleteTask: (id: number) => void;
 	selectedId: number | null;
 	toggleConcludedLoading: boolean;
@@ -57,12 +30,7 @@ interface TaskListViewI {
 
 const TaskListView = ({
 	data,
-	filteredTasks,
 	columns,
-	handleInputChange,
-	searchWord,
-	filterTasks,
-	handleCleanFilter,
 	handleNavigate,
 	tasksLoading,
 	deleteLoading,
@@ -98,75 +66,14 @@ const TaskListView = ({
 				handleDeleteTask={handleDeleteTask}
 				selectedId={selectedId}
 			/>
-
 			<Container maxW={'1200'}>
 				{!data?.length && !tasksLoading ? (
 					<ManWithTasklistAnimation />
 				) : (
 					<Container maxW='full'>
-						<Grid
-							templateColumns={['repeat(1, 1fr)', 'repeat(2, 1fr)']}
-							gap={4}
-						>
-							<GridItem>
-								<Accordion defaultIndex={[0]} allowToggle>
-									<AccordionItem>
-										<AccordionButton
-											display={'flex'}
-											justifyContent='center'
-											alignItems='center'
-										>
-											Resumo das tasks
-											<AccordionIcon />
-										</AccordionButton>
-										<AccordionPanel>
-											<Card>
-												<CardBody>
-													<Stat>
-														<StatLabel>Tasks não concluídas</StatLabel>
-														<StatNumber>
-															<CountUp end={count} duration={2} />
-														</StatNumber>
-														<StatHelpText>Pagina: {tasksPage + 1}</StatHelpText>
-													</Stat>
-												</CardBody>
-											</Card>
-										</AccordionPanel>
-									</AccordionItem>
-								</Accordion>
-							</GridItem>
-							<GridItem>
-								<InputGroup>
-									<Input
-										onChange={(e) => handleInputChange(e.target.value)}
-										value={searchWord}
-									/>
-									<InputRightElement
-										children={
-											<>
-												<Search2Icon
-													cursor={'pointer'}
-													onClick={() => filterTasks()}
-												/>
-												{searchWord.length ? (
-													<CloseIcon
-														ml={'2'}
-														mr={'4'}
-														cursor={'pointer'}
-														boxSize={3}
-														onClick={() => handleCleanFilter()}
-													/>
-												) : null}
-											</>
-										}
-									/>
-								</InputGroup>
-							</GridItem>
-						</Grid>
-
 						<TasksTable
 							columns={columns}
-							data={filteredTasks.length ? filteredTasks : data}
+							data={data}
 							handlePageChange={handlePageChange}
 							tasksPage={tasksPage}
 							totalPages={totalPages}
