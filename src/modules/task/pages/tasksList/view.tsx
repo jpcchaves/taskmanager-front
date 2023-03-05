@@ -1,4 +1,4 @@
-import { AddIcon, ArrowUpIcon, Search2Icon } from '@chakra-ui/icons';
+import { AddIcon, ArrowUpIcon, CloseIcon, Search2Icon } from '@chakra-ui/icons';
 import {
 	Accordion,
 	AccordionButton,
@@ -40,6 +40,7 @@ interface TaskListViewI {
 	tasksLoading: boolean;
 	deleteLoading: boolean;
 	isOpen: boolean;
+	handleCleanFilter: () => void;
 	onClose: () => void;
 	handleInputChange: (e: string) => void;
 	searchWord: string;
@@ -61,6 +62,7 @@ const TaskListView = ({
 	handleInputChange,
 	searchWord,
 	filterTasks,
+	handleCleanFilter,
 	handleNavigate,
 	tasksLoading,
 	deleteLoading,
@@ -140,8 +142,23 @@ const TaskListView = ({
 										value={searchWord}
 									/>
 									<InputRightElement
-										onClick={() => filterTasks()}
-										children={<Search2Icon cursor={'pointer'} />}
+										children={
+											<>
+												<Search2Icon
+													cursor={'pointer'}
+													onClick={() => filterTasks()}
+												/>
+												{searchWord.length ? (
+													<CloseIcon
+														ml={'2'}
+														mr={'4'}
+														cursor={'pointer'}
+														boxSize={3}
+														onClick={() => handleCleanFilter()}
+													/>
+												) : null}
+											</>
+										}
 									/>
 								</InputGroup>
 							</GridItem>

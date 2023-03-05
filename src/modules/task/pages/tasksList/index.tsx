@@ -251,7 +251,16 @@ const TaskList = () => {
 			}
 		});
 
-		setFilteredTasks(filter);
+		if (filter.length) {
+			return setFilteredTasks(filter);
+		} else {
+			window.alert(`Não foi encontrada nenhuma task com o nome: ${searchWord}`);
+		}
+	};
+
+	const handleCleanFilter = () => {
+		setFilteredTasks([]);
+		setSearchWord('');
 	};
 
 	return (
@@ -263,6 +272,7 @@ const TaskList = () => {
 				handleInputChange={handleInputChange}
 				searchWord={searchWord}
 				filterTasks={filterTasks}
+				handleCleanFilter={handleCleanFilter}
 				handleNavigate={handleNavigate}
 				tasksLoading={tasksLoading}
 				deleteLoading={deleteLoading}
