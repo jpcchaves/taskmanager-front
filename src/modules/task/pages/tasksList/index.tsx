@@ -238,6 +238,10 @@ const TaskList = () => {
 		},
 	];
 
+	const handleInputChange = (e: string) => {
+		setSearchWord(e);
+	};
+
 	const filterTasks = () => {
 		const filter = data.filter((task: TaskI) => {
 			if (searchWord.length) {
@@ -252,20 +256,13 @@ const TaskList = () => {
 
 	return (
 		<>
-			<InputGroup>
-				<Input
-					onChange={(e) => setSearchWord(e.target.value)}
-					value={searchWord}
-				/>
-				<InputRightElement
-					onClick={() => filterTasks()}
-					children={<Search2Icon cursor={'pointer'} />}
-				/>
-			</InputGroup>
 			<TaskListView
 				data={data}
 				filteredTasks={filteredTasks}
 				columns={columns}
+				handleInputChange={handleInputChange}
+				searchWord={searchWord}
+				filterTasks={filterTasks}
 				handleNavigate={handleNavigate}
 				tasksLoading={tasksLoading}
 				deleteLoading={deleteLoading}

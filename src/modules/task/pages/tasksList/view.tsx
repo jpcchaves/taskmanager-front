@@ -1,4 +1,4 @@
-import { AddIcon, ArrowUpIcon } from '@chakra-ui/icons';
+import { AddIcon, ArrowUpIcon, Search2Icon } from '@chakra-ui/icons';
 import {
 	Accordion,
 	AccordionButton,
@@ -10,6 +10,11 @@ import {
 	Card,
 	CardBody,
 	Container,
+	Grid,
+	GridItem,
+	Input,
+	InputGroup,
+	InputRightElement,
 	Stat,
 	StatHelpText,
 	StatLabel,
@@ -36,6 +41,9 @@ interface TaskListViewI {
 	deleteLoading: boolean;
 	isOpen: boolean;
 	onClose: () => void;
+	handleInputChange: (e: string) => void;
+	searchWord: string;
+	filterTasks: () => void;
 	handleDeleteTask: (id: number) => void;
 	selectedId: number | null;
 	toggleConcludedLoading: boolean;
@@ -50,6 +58,9 @@ const TaskListView = ({
 	data,
 	filteredTasks,
 	columns,
+	handleInputChange,
+	searchWord,
+	filterTasks,
 	handleNavigate,
 	tasksLoading,
 	deleteLoading,
@@ -91,27 +102,50 @@ const TaskListView = ({
 					<ManWithTasklistAnimation />
 				) : (
 					<Container maxW='full'>
-						<Accordion defaultIndex={[0]} allowToggle py={'5'}>
-							<AccordionItem>
-								<AccordionButton>
-									Clique para ver o resumo das tasks não concluídas
-									<AccordionIcon />
-								</AccordionButton>
-								<AccordionPanel>
-									<Card>
-										<CardBody>
-											<Stat>
-												<StatLabel>Tasks não concluídas</StatLabel>
-												<StatNumber>
-													<CountUp end={count} duration={2} />
-												</StatNumber>
-												<StatHelpText>Pagina: {tasksPage + 1}</StatHelpText>
-											</Stat>
-										</CardBody>
-									</Card>
-								</AccordionPanel>
-							</AccordionItem>
-						</Accordion>
+						<Grid
+							templateColumns={['repeat(1, 1fr)', 'repeat(2, 1fr)']}
+							gap={4}
+						>
+							<GridItem>
+								<Accordion defaultIndex={[0]} allowToggle>
+									<AccordionItem>
+										<AccordionButton
+											display={'flex'}
+											justifyContent='center'
+											alignItems='center'
+										>
+											Resumo das tasks
+											<AccordionIcon />
+										</AccordionButton>
+										<AccordionPanel>
+											<Card>
+												<CardBody>
+													<Stat>
+														<StatLabel>Tasks não concluídas</StatLabel>
+														<StatNumber>
+															<CountUp end={count} duration={2} />
+														</StatNumber>
+														<StatHelpText>Pagina: {tasksPage + 1}</StatHelpText>
+													</Stat>
+												</CardBody>
+											</Card>
+										</AccordionPanel>
+									</AccordionItem>
+								</Accordion>
+							</GridItem>
+							<GridItem>
+								<InputGroup>
+									<Input
+										onChange={(e) => handleInputChange(e.target.value)}
+										value={searchWord}
+									/>
+									<InputRightElement
+										onClick={() => filterTasks()}
+										children={<Search2Icon cursor={'pointer'} />}
+									/>
+								</InputGroup>
+							</GridItem>
+						</Grid>
 
 						<TasksTable
 							columns={columns}
