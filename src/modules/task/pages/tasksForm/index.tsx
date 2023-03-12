@@ -10,7 +10,7 @@ import TasksFormView from './view';
 import moment from 'moment';
 import useGetTaskByIdMutation from '../../../../hooks/useGetTaskByIdMutation';
 import useUpdateTaskMutation from '../../../../hooks/useUpdateTaskMutation';
-import { FormPayloadI } from '../../types/formPayloadI';
+import { FormPayloadI } from '../../types/FormPayloadI';
 
 const TasksForm = () => {
 	const toast = useToast();
