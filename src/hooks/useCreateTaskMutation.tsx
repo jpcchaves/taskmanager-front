@@ -1,6 +1,6 @@
 import { useMutation } from 'react-query';
-import { FormPayloadI } from '../modules/task/types/formPayloadI';
 import { api } from './useApi';
+import { FormPayloadI } from '../modules/task/types/FormPayloadI';
 
 const useCreateTaskMutation = () => {
 	const createTask = async (formPayload: FormPayloadI) => {
