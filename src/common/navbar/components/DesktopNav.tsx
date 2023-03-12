@@ -21,17 +21,7 @@ const DesktopNav = () => {
 				<Box key={navItem.label}>
 					<Popover trigger={'hover'} placement={'bottom-start'}>
 						<PopoverTrigger>
-							<RouteLink
-								p={2}
-								to={navItem.href ?? '#'}
-								fontSize={'sm'}
-								fontWeight={500}
-								color={linkColor}
-								_hover={{
-									textDecoration: 'none',
-									color: linkHoverColor,
-								}}
-							>
+							<RouteLink to={navItem.href ?? '#'} color={linkColor}>
 								{navItem.label}
 							</RouteLink>
 						</PopoverTrigger>
