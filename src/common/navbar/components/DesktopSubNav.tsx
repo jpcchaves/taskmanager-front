@@ -12,14 +12,7 @@ import { NavItem } from '../types/NavItemI';
 
 const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
 	return (
-		<RouteLink
-			to={href!}
-			role={'group'}
-			display={'block'}
-			p={2}
-			rounded={'md'}
-			_hover={{ bg: useColorModeValue('pink.50', 'gray.900') }}
-		>
+		<RouteLink to={href!} role={'group'}>
 			<Stack direction={'row'} align={'center'}>
 				<Box>
 					<Text
