@@ -166,6 +166,17 @@ const TaskList = () => {
 				});
 				client.invalidateQueries(['tasks']);
 			},
+			onError: (e: any) => {
+				const { message } = e?.response?.data;
+				toast({
+					title: 'Ocorreu um erro ao editar a task!',
+					description: message,
+					status: 'error',
+					position: 'top-right',
+					duration: 3000,
+					isClosable: true,
+				});
+			},
 		});
 	};
 
