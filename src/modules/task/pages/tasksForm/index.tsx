@@ -41,16 +41,28 @@ const TasksForm = () => {
 		initialValues: {
 			task: taskById ? taskById.task : '',
 			deadline: taskById
-				? moment(taskById.deadline).utc().format('YYYY-MM-DDTHH:mm')
+				? moment(taskById.deadline).utc(true).format('YYYY-MM-DDTHH:mm')
 				: '',
 			concluded: taskById ? taskById.concluded : false,
 		},
 		validationSchema: tasKValidation,
 		onSubmit: (values: FormPayloadI) => {
+			const { concluded, task } = values;
+			const formattedDate = moment(values.deadline)
+				.utc()
+				.format('YYYY-MM-DDTHH:mm')
+				.toString();
+
+			const formPayload = {
+				task,
+				deadline: formattedDate,
+				concluded,
+			};
+
 			if (id) {
 				const valuesToSubmit = {
 					id,
-					formPayload: values,
+					formPayload,
 				};
 
 				updateTaskMutate(valuesToSubmit, {
@@ -77,7 +89,7 @@ const TasksForm = () => {
 					},
 				});
 			} else {
-				createTaskMutate(values, {
+				createTaskMutate(formPayload, {
 					onSuccess: () => {
 						toast({
 							title: 'Task criada com sucesso!',

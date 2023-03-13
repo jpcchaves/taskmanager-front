@@ -185,7 +185,7 @@ const TaskList = () => {
 			header: 'Data de Criação',
 		}),
 		columnHelper.accessor('deadline', {
-			cell: (info) => moment(info.getValue()).utc().format('DD/MM/YYYY'),
+			cell: (info) => moment(info.getValue()).format('DD/MM/YYYY'),
 			header: 'Prazo',
 		}),
 		columnHelper.accessor('concluded', {
